@@ -1,0 +1,30 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+    maven {
+    	url "http://repo.maven.apache.org/maven2"
+    }
+    maven {
+    	url "http://repo.marketcetera.org/maven"
+    }
+}
+
+dependencies {
+    compile 'quickfixj:quickfixj-all:1.6.0'
+    compile 'org.slf4j:slf4j-api:1.7.18'
+    //compile 'org.springframework:spring-core:4.2.5.RELEASE'
+    //compile 'org.springframework:spring-context:4.2.5.RELEASE'
+}
+
+version = '0.1'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Market Maker',
+                   'Implementation-Version': version
+    }
+}
+
+// Launchers
+
