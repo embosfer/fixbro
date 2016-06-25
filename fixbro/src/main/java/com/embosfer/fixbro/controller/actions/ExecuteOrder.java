@@ -20,19 +20,19 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.controller.actions;
 
-import com.embosfer.fixbro.controller.ExecutionProducer;
-import com.embosfer.fixbro.model.Execution;
+import com.embosfer.fixbro.controller.ExecutionReportProducer;
+import com.embosfer.fixbro.model.ExecutionReport;
 import com.embosfer.fixbro.model.OrdStatus;
 import com.embosfer.fixbro.model.Order;
 
 /**
  * Applies the execution on the current order and produces the corresponding
- * {@link Execution} report
+ * {@link ExecutionReport} report
  * 
  * @author embosfer
  *
  */
-public class ExecuteOrder implements ExecutionProducer {
+public class ExecuteOrder implements ExecutionReportProducer {
 
 	private final Order order;
 	private final double lastPx;
@@ -75,9 +75,9 @@ public class ExecuteOrder implements ExecutionProducer {
 	}
 
 	@Override
-	public Execution getExecution() {
+	public ExecutionReport getExecutionReport() {
 		// FIXME execType to be added
-		Execution.Builder builder = new Execution.Builder(order);
+		ExecutionReport.Builder builder = new ExecutionReport.Builder(order);
 		builder
 				// execType(ordStatus
 				.lastPx(lastPx).lastQty(lastQty);

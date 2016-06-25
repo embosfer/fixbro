@@ -21,7 +21,7 @@
 package com.embosfer.fixbro.controller.qfj;
 
 import com.embosfer.fixbro.controller.ExecutionNotifier;
-import com.embosfer.fixbro.model.Execution;
+import com.embosfer.fixbro.model.ExecutionReport;
 
 import quickfix.DoNotSend;
 import quickfix.FieldNotFound;
@@ -87,7 +87,7 @@ public class ECNApplication implements quickfix.Application, ExecutionNotifier {
 	}
 
 	@Override
-	public void notify(Execution er) {
+	public void notify(ExecutionReport er) {
 		quickfix.fix44.ExecutionReport qfjER = new quickfix.fix44.ExecutionReport();
 		qfjER.set(new OrderID(er.getOrder().getOrderID()));
 		qfjER.set(new OrdStatus(er.getOrdStatus().toChar()));

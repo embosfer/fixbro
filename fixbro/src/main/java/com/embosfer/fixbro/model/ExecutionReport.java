@@ -30,7 +30,7 @@ package com.embosfer.fixbro.model;
  * @author embosfer
  *
  */
-public class Execution {
+public class ExecutionReport {
 
 	private final Order order;
 
@@ -73,13 +73,13 @@ public class Execution {
 			return this;
 		}
 
-		public Execution build() {
-			return new Execution(this);
+		public ExecutionReport build() {
+			return new ExecutionReport(this);
 		}
 
 	}
 
-	private Execution(Builder builder) {
+	private ExecutionReport(Builder builder) {
 		this.execID = "E" + System.currentTimeMillis(); // ensure unicity
 		this.order = builder.order;
 		this.avgPx = builder.order.getAvgPx();

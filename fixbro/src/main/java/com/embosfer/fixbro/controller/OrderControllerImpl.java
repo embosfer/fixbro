@@ -21,7 +21,7 @@
 package com.embosfer.fixbro.controller;
 
 import com.embosfer.fixbro.controller.actions.ExecuteOrder;
-import com.embosfer.fixbro.model.Execution;
+import com.embosfer.fixbro.model.ExecutionReport;
 import com.embosfer.fixbro.model.Order;
 
 /**
@@ -32,14 +32,14 @@ import com.embosfer.fixbro.model.Order;
  */
 public class OrderControllerImpl implements OrderController {
 
-	private void sendExecution(ExecutionProducer executionProducer) {
-		Execution execution = executionProducer.getExecution();
+	private void sendExecutionReport(ExecutionReportProducer executionProducer) {
+		ExecutionReport execution = executionProducer.getExecutionReport();
 		// TODO send Execution out
 	}
 
 	@Override
 	public void execute(Order order, double lastPx, double lastQty) {
-		sendExecution(new ExecuteOrder(order, lastPx, lastQty));
+		sendExecutionReport(new ExecuteOrder(order, lastPx, lastQty));
 	}
 
 	@Override

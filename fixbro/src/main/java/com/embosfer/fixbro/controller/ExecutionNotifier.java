@@ -20,10 +20,10 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.controller;
 
-import com.embosfer.fixbro.model.Execution;
+import com.embosfer.fixbro.model.ExecutionReport;
 
 public interface ExecutionNotifier {
 
-	void notify(Execution er);
+	void notify(ExecutionReport er);
 
 }
