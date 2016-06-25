@@ -41,7 +41,7 @@ import quickfix.field.Side;
 import quickfix.field.Symbol;
 import quickfix.fix44.component.Instrument;
 
-public class ECNApplication implements quickfix.Application, ExecutionNotifier {
+public class QFJApplication implements quickfix.Application, ExecutionNotifier {
 
 	@Override
 	public void fromAdmin(Message arg0, SessionID arg1)

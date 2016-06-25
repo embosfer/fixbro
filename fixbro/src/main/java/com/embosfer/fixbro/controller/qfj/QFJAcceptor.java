@@ -20,8 +20,6 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.controller.qfj;
 
-import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,15 +29,22 @@ import quickfix.FileStoreFactory;
 import quickfix.SessionSettings;
 import quickfix.SocketAcceptor;
 
-public class ECN {
+/**
+ * This class manages the life cycle of a QFJ acceptor. It requires a .cfg file
+ * specifying the QFJ properties, like senderCompID, targetCompID, etc
+ * 
+ * @author embosfer
+ *
+ */
+public class QFJAcceptor {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ECN.class);
+	private static final Logger LOG = LoggerFactory.getLogger(QFJAcceptor.class);
 
 	private final SocketAcceptor acceptor;
 
-	public ECN(String settingsFileName) throws ConfigError {
+	public QFJAcceptor(String settingsFileName) throws ConfigError {
 		final SessionSettings settings = new SessionSettings(settingsFileName);
-		acceptor = new SocketAcceptor(new ECNApplication(), new FileStoreFactory(settings), settings,
+		acceptor = new SocketAcceptor(new QFJApplication(), new FileStoreFactory(settings), settings,
 				new DefaultMessageFactory());
 	}
 
@@ -55,14 +60,4 @@ public class ECN {
 		LOG.info("Stopped");
 	}
 
-	public static void main(String[] args) throws ConfigError, IOException {
-		final ECN ecn = new ECN(args[0]);
-		ecn.start();
-
-		System.out.println("Hit <enter> to stop the app");
-		System.in.read();
-		System.out.println("Bye!");
-
-		ecn.stop();
-	}
 }

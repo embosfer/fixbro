@@ -22,6 +22,7 @@ package com.embosfer.fixbro.main;
 
 import com.embosfer.fixbro.controller.OrderController;
 import com.embosfer.fixbro.controller.OrderControllerImpl;
+import com.embosfer.fixbro.controller.qfj.QFJAcceptor;
 import com.embosfer.fixbro.model.OrdStatus;
 import com.embosfer.fixbro.model.Order;
 import com.embosfer.fixbro.model.OrderBean;
@@ -30,6 +31,7 @@ import com.embosfer.fixbro.view.OrderView;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import quickfix.ConfigError;
 
 /**
  * Starts the application
@@ -46,7 +48,8 @@ public class FIXBro extends Application {
 		view = new OrderView(controller);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ConfigError {
+		// add some fake orders into the order book
 		Order order1 = new OrderBean();
 		order1.setAvgPx(0D);
 		order1.setClOrdID("1234");
@@ -72,7 +75,13 @@ public class FIXBro extends Application {
 		order2.setQty(2000D);
 		order2.setSymbol("EUR/USD");
 		OrderBook.getInstance().addOrder(order2);
+		
+		// launch JavaFX
 		launch(args);
+		
+		// start accepting connections
+		final QFJAcceptor acceptor = new QFJAcceptor("fixbro_qfj.cfg");
+		acceptor.start();
 	}
 
 	@Override
