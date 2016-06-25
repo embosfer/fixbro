@@ -21,7 +21,7 @@ version = '0.1'
 
 jar {
     manifest {
-        attributes 'Implementation-Title': 'Market Maker',
+        attributes 'Implementation-Title': 'FIXBro',
                    'Implementation-Version': version
     }
 }
