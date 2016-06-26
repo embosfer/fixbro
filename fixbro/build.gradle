@@ -3,6 +3,9 @@ apply plugin: 'eclipse'
 
 repositories {
     maven {
+    	url "http://repo.maven.apache.org/maven2"
+    }
+    maven {
     	url "http://repo1.maven.apache.org/maven2"
     }
     maven {
@@ -12,8 +15,8 @@ repositories {
 
 dependencies {
     // quickfixj
-    compile 'quickfixj:quickfixj-core:1.6.1'
-    compile 'quickfixj:quickfixj-messages-fix44:1.6.1'
+    compile 'org.quickfixj:quickfixj-core:1.6.2'
+    compile 'org.quickfixj:quickfixj-messages-fix44:1.6.2'
     runtime 'org.apache.mina:mina-core:2.0.13'
     // logging
     compile 'org.slf4j:slf4j-api:1.7.18'
