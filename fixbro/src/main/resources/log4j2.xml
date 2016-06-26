@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+<!--     <File name="QFJ" fileName="qfj.log" append="false"> -->
+<!--       <PatternLayout pattern="%t %-5p %c{2} - %m%n"/> -->
+<!--     </File> -->
+    <File name="FIXBRO" fileName="var/log/fixbro.log" append="false">
+      <PatternLayout pattern="%t %-5p %c{2} - %m%n"/>
+    </File>
+    <Console name="STDOUT" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+<!--     <Logger name=com.embosfer.controller.qfj" level="debug"> -->
+<!--       <AppenderRef ref="QFJ"/> -->
+<!--     </Logger> -->
+    <Logger name="com.embosfer.fixbro" level="debug">
+      <AppenderRef ref="FIXBRO"/>
+    </Logger>
+    <Root level="debug">
+      <AppenderRef ref="STDOUT"/>
+    </Root>
+  </Loggers>
+</Configuration>
