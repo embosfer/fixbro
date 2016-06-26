@@ -24,9 +24,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.embosfer.fixbro.model.Order;
-import com.embosfer.fixbro.model.OrderBean;
-import com.embosfer.fixbro.model.OrderBook;
+import com.embosfer.fixbro.model.state.Order;
+import com.embosfer.fixbro.model.state.OrderBean;
+import com.embosfer.fixbro.model.state.OrderBook;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;

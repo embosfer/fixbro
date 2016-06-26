@@ -18,39 +18,29 @@
  * specific language governing permissions and limitations under the License.
  *
  ***********************************************************************************************************************/
-package com.embosfer.fixbro.model;
+package com.embosfer.fixbro.model.tags;
 
-/**
- * Mutable structure that holds the state of an order.
- * 
- * @author embosfer
- *
- */
-public interface Order extends ReadOnlyOrder {
+public enum OrdStatus {
 
-	void setOrderID(String ID);
+	// TODO finish statuses
+	PENDING_NEW('A', "Pending New"), NEW('0', "New"), PARTIALLY_FILLED('1', "Partially Filled"), FILLED('2',
+			"Filled"), DONE_FOR_DAY('3', "Done for Day"), CANCELED('4', "Canceled");
 
-	void setClOrdID(String clientID);
+	private final char fixStatus;
+	private final String humanStatus;
 
-	void setOrigClOrdID(String origClientID);
+	OrdStatus(char status, String humanStatus) {
+		this.fixStatus = status;
+		this.humanStatus = humanStatus;
+	}
 
-	void setSymbol(String symbol);
+	@Override
+	public String toString() {
+		return fixStatus + " (" + humanStatus + ")";
+	}
+	
+	public char toChar() {
+		return fixStatus;
+	}
 
-	void setOrdStatus(OrdStatus status);
-
-	void setTimeInForce(char tif);
-
-	void setSide(char side);
-
-	void setOrdType(char type);
-
-	void setQty(double qty);
-
-	void setAvgPx(double price);
-
-	void setPrice(double price);
-
-	void setCumQty(double cumQty);
-
-	void setLeavesQty(double leavesQty);
 }

@@ -23,10 +23,10 @@ package com.embosfer.fixbro.main;
 import com.embosfer.fixbro.controller.OrderController;
 import com.embosfer.fixbro.controller.OrderControllerImpl;
 import com.embosfer.fixbro.controller.qfj.QFJAcceptor;
-import com.embosfer.fixbro.model.OrdStatus;
-import com.embosfer.fixbro.model.Order;
-import com.embosfer.fixbro.model.OrderBean;
-import com.embosfer.fixbro.model.OrderBook;
+import com.embosfer.fixbro.model.state.Order;
+import com.embosfer.fixbro.model.state.OrderBean;
+import com.embosfer.fixbro.model.state.OrderBook;
+import com.embosfer.fixbro.model.tags.OrdStatus;
 import com.embosfer.fixbro.view.OrderView;
 
 import javafx.application.Application;
@@ -34,7 +34,10 @@ import javafx.stage.Stage;
 import quickfix.ConfigError;
 
 /**
- * Starts the application
+ * Starts the application and delegates to the actual JavaFX application. An
+ * instance of this class will be created by JavaFX after having called
+ * launch(args). FIXBro will create the actual application (view) and the
+ * controller
  * 
  * @author embosfer
  *
@@ -49,6 +52,10 @@ public class FIXBro extends Application {
 	}
 
 	public static void main(String[] args) throws ConfigError {
+		// start accepting connections
+		final QFJAcceptor acceptor = new QFJAcceptor("fixbro_qfj.cfg");
+		acceptor.start();
+
 		// add some fake orders into the order book
 		Order order1 = new OrderBean();
 		order1.setAvgPx(0D);
@@ -63,7 +70,7 @@ public class FIXBro extends Application {
 		order1.setSymbol("EUR/USD");
 		OrderBook.getInstance().addOrder(order1);
 
-		Order order2= new OrderBean();
+		Order order2 = new OrderBean();
 		order2.setAvgPx(0D);
 		order2.setClOrdID("1235");
 		order2.setCumQty(0D);
@@ -75,13 +82,11 @@ public class FIXBro extends Application {
 		order2.setQty(2000D);
 		order2.setSymbol("EUR/USD");
 		OrderBook.getInstance().addOrder(order2);
-		
+
 		// launch JavaFX
 		launch(args);
-		
-		// start accepting connections
-		final QFJAcceptor acceptor = new QFJAcceptor("fixbro_qfj.cfg");
-		acceptor.start();
+
+		acceptor.stop();
 	}
 
 	@Override

@@ -21,9 +21,9 @@
 package com.embosfer.fixbro.controller.actions;
 
 import com.embosfer.fixbro.controller.ExecutionReportProducer;
-import com.embosfer.fixbro.model.ExecutionReport;
-import com.embosfer.fixbro.model.OrdStatus;
-import com.embosfer.fixbro.model.Order;
+import com.embosfer.fixbro.model.messages.ExecutionReport;
+import com.embosfer.fixbro.model.state.Order;
+import com.embosfer.fixbro.model.tags.OrdStatus;
 
 /**
  * Applies the execution on the current order and produces the corresponding

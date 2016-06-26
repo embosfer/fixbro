@@ -18,7 +18,10 @@
  * specific language governing permissions and limitations under the License.
  *
  ***********************************************************************************************************************/
-package com.embosfer.fixbro.model;
+package com.embosfer.fixbro.model.messages;
+
+import com.embosfer.fixbro.model.state.Order;
+import com.embosfer.fixbro.model.tags.OrdStatus;
 
 /**
  * Immutable class. This execution structure is based on the structure

@@ -20,7 +20,7 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.controller;
 
-import com.embosfer.fixbro.model.Order;
+import com.embosfer.fixbro.model.state.Order;
 
 /**
  * Controller part of the MVC model

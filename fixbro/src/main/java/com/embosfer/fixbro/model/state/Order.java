@@ -18,33 +18,41 @@
  * specific language governing permissions and limitations under the License.
  *
  ***********************************************************************************************************************/
-package com.embosfer.fixbro.model;
+package com.embosfer.fixbro.model.state;
 
-public interface ReadOnlyOrder {
+import com.embosfer.fixbro.model.tags.OrdStatus;
 
-	String getOrderID();
+/**
+ * Mutable structure that holds the state of an order.
+ * 
+ * @author embosfer
+ *
+ */
+public interface Order extends ReadOnlyOrder {
 
-	String getClOrdID();
+	void setOrderID(String ID);
 
-	String getOrigClOrdID();
+	void setClOrdID(String clientID);
 
-	String getSymbol();
+	void setOrigClOrdID(String origClientID);
 
-	OrdStatus getOrdStatus();
+	void setSymbol(String symbol);
 
-	char getTimeInForce();
+	void setOrdStatus(OrdStatus status);
 
-	char getSide();
+	void setTimeInForce(char tif);
 
-	char getOrdType();
+	void setSide(char side);
 
-	double getQty();
+	void setOrdType(char type);
 
-	double getAvgPx();
+	void setQty(double qty);
 
-	double getPrice();
-	
-	double getCumQty();
-	
-	double getLeavesQty();
+	void setAvgPx(double price);
+
+	void setPrice(double price);
+
+	void setCumQty(double cumQty);
+
+	void setLeavesQty(double leavesQty);
 }

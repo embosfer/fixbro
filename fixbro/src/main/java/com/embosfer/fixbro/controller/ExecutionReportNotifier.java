@@ -20,7 +20,7 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.controller;
 
-import com.embosfer.fixbro.model.ExecutionReport;
+import com.embosfer.fixbro.model.messages.ExecutionReport;
 
 public interface ExecutionReportNotifier {
 

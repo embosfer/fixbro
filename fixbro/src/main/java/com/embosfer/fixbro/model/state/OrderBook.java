@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations under the License.
  *
  ***********************************************************************************************************************/
-package com.embosfer.fixbro.model;
+package com.embosfer.fixbro.model.state;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -21,7 +21,7 @@
 package com.embosfer.fixbro.view;
 
 import com.embosfer.fixbro.controller.OrderController;
-import com.embosfer.fixbro.model.OrderBean;
+import com.embosfer.fixbro.model.state.OrderBean;
 
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;

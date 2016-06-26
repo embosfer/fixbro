@@ -18,29 +18,35 @@
  * specific language governing permissions and limitations under the License.
  *
  ***********************************************************************************************************************/
-package com.embosfer.fixbro.model;
+package com.embosfer.fixbro.model.state;
 
-public enum OrdStatus {
+import com.embosfer.fixbro.model.tags.OrdStatus;
 
-	// TODO finish statuses
-	PENDING_NEW('A', "Pending New"), NEW('0', "New"), PARTIALLY_FILLED('1', "Partially Filled"), FILLED('2',
-			"Filled"), DONE_FOR_DAY('3', "Done for Day"), CANCELED('4', "Canceled");
+public interface ReadOnlyOrder {
 
-	private final char fixStatus;
-	private final String humanStatus;
+	String getOrderID();
 
-	OrdStatus(char status, String humanStatus) {
-		this.fixStatus = status;
-		this.humanStatus = humanStatus;
-	}
+	String getClOrdID();
 
-	@Override
-	public String toString() {
-		return fixStatus + " (" + humanStatus + ")";
-	}
+	String getOrigClOrdID();
+
+	String getSymbol();
+
+	OrdStatus getOrdStatus();
+
+	char getTimeInForce();
+
+	char getSide();
+
+	char getOrdType();
+
+	double getQty();
+
+	double getAvgPx();
+
+	double getPrice();
 	
-	public char toChar() {
-		return fixStatus;
-	}
-
+	double getCumQty();
+	
+	double getLeavesQty();
 }

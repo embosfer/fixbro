@@ -21,7 +21,7 @@
 package com.embosfer.fixbro.controller.qfj;
 
 import com.embosfer.fixbro.controller.ExecutionReportNotifier;
-import com.embosfer.fixbro.model.ExecutionReport;
+import com.embosfer.fixbro.model.messages.ExecutionReport;
 
 import quickfix.DoNotSend;
 import quickfix.FieldNotFound;

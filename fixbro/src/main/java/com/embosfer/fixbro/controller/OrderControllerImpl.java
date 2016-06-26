@@ -20,9 +20,12 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.embosfer.fixbro.controller.actions.ExecuteOrder;
-import com.embosfer.fixbro.model.ExecutionReport;
-import com.embosfer.fixbro.model.Order;
+import com.embosfer.fixbro.model.messages.ExecutionReport;
+import com.embosfer.fixbro.model.state.Order;
 
 /**
  * Applies the action asked by the view and sends the Execution out
@@ -32,8 +35,11 @@ import com.embosfer.fixbro.model.Order;
  */
 public class OrderControllerImpl implements OrderController {
 
+	private final Logger log = LoggerFactory.getLogger(OrderControllerImpl.class);
+	
 	private void sendExecutionReport(ExecutionReportProducer executionProducer) {
-		ExecutionReport execution = executionProducer.getExecutionReport();
+		ExecutionReport er = executionProducer.getExecutionReport();
+		log.info("Sending {}", er);
 		// TODO send Execution out
 	}
 
