@@ -22,9 +22,9 @@ package com.embosfer.fixbro.model;
 
 /**
  * Immutable class. This execution structure is based on the structure
- * ExecutionReport from FIX 4.4. "Never changing" fields are available through the
- * Order object, like for instance Side and Symbol. The rest of the fields are
- * available via at the root level of this structure because they are
+ * ExecutionReport from FIX 4.4. "Never changing" fields are available through
+ * the Order object, like for instance Side and Symbol. The rest of the fields
+ * are available via at the root level of this structure because they are
  * potentially different at each execution
  * 
  * @author embosfer
@@ -125,6 +125,16 @@ public class ExecutionReport {
 
 	public OrdStatus getOrdStatus() {
 		return ordStatus;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder("[ExecutionReport ");
+		builder.append("execID:").append(execID).append(" execType:").append(execType).append(ordStatus)
+				.append(" lastQty:").append(lastQty).append(" lastPx:").append(lastPx).append(" leavesQty:")
+				.append(leavesQty).append(" cumQty:").append(cumQty).append(" avgPx:").append(avgPx).append(" ")
+				.append(order).append("]");
+		return builder.toString();
 	}
 
 }
