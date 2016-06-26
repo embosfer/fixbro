@@ -20,7 +20,7 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.controller.qfj;
 
-import com.embosfer.fixbro.controller.ExecutionNotifier;
+import com.embosfer.fixbro.controller.ExecutionReportNotifier;
 import com.embosfer.fixbro.model.ExecutionReport;
 
 import quickfix.DoNotSend;
@@ -41,7 +41,7 @@ import quickfix.field.Side;
 import quickfix.field.Symbol;
 import quickfix.fix44.component.Instrument;
 
-public class QFJApplication implements quickfix.Application, ExecutionNotifier {
+public class QFJApplication implements quickfix.Application, ExecutionReportNotifier {
 
 	@Override
 	public void fromAdmin(Message arg0, SessionID arg1)

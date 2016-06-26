@@ -22,7 +22,7 @@ package com.embosfer.fixbro.controller;
 
 import com.embosfer.fixbro.model.ExecutionReport;
 
-public interface ExecutionNotifier {
+public interface ExecutionReportNotifier {
 
 	void notify(ExecutionReport er);
 
