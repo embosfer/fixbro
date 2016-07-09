@@ -42,7 +42,7 @@ public class NewOrderSingle {
 	private final OrdType ordType; // 40
 
 	// non mandatory
-	private double price; // 44
+	private Double price; // 44
 
 	private NewOrderSingle(Builder builder) {
 		this.clOrdID = builder.clOrdID;
@@ -101,7 +101,7 @@ public class NewOrderSingle {
 		private OrdType ordType;
 
 		// non mandatory
-		private double price;
+		private Double price;
 
 		public Builder() {
 		}
