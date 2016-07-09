@@ -20,6 +20,9 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.controller.qfj;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.embosfer.fixbro.controller.ExecutionReportNotifier;
 import com.embosfer.fixbro.model.messages.ExecutionReport;
 
@@ -39,51 +42,57 @@ import quickfix.field.OrdStatus;
 import quickfix.field.OrderID;
 import quickfix.field.Side;
 import quickfix.field.Symbol;
+import quickfix.fix44.NewOrderSingle;
 import quickfix.fix44.component.Instrument;
 
-public class QFJApplication implements quickfix.Application, ExecutionReportNotifier {
+public class QFJApplication extends quickfix.fix44.MessageCracker
+		implements quickfix.Application, ExecutionReportNotifier {
+
+	private static final Logger logger = LoggerFactory.getLogger(QFJApplication.class);
 
 	@Override
-	public void fromAdmin(Message arg0, SessionID arg1)
+	public void fromAdmin(Message msg, SessionID sessionID)
 			throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, RejectLogon {
-		// TODO Auto-generated method stub
-
+		logger.info("fromAdmin on session {}. Msg {}", sessionID, msg);
 	}
 
 	@Override
-	public void fromApp(Message arg0, SessionID arg1)
+	public void fromApp(Message msg, SessionID sessionID)
 			throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
-		// TODO Auto-generated method stub
-
+		if (logger.isDebugEnabled())
+			logger.debug("fromApp on session {}. Msg {}", sessionID, msg);
+		crack(msg, sessionID);
 	}
 
 	@Override
 	public void onCreate(SessionID session) {
-
+		logger.info("creating {}", session);
 	}
 
 	@Override
-	public void onLogon(SessionID arg0) {
-		// TODO Auto-generated method stub
-
+	public void onLogon(SessionID sessionID) {
+		logger.info("loging on {}", sessionID);
 	}
 
 	@Override
-	public void onLogout(SessionID arg0) {
-		// TODO Auto-generated method stub
-
+	public void onLogout(SessionID sessionID) {
+		logger.info("loging out {}", sessionID);
 	}
 
 	@Override
-	public void toAdmin(Message arg0, SessionID arg1) {
-		// TODO Auto-generated method stub
-
+	public void toAdmin(Message msg, SessionID sessionID) {
+		logger.info("toAdmin {}", sessionID);
 	}
 
 	@Override
-	public void toApp(Message arg0, SessionID arg1) throws DoNotSend {
-		// TODO Auto-generated method stub
+	public void toApp(Message msg, SessionID sessionID) throws DoNotSend {
+		logger.info("toApp on session {}. Msg {}", sessionID, msg);
+	}
 
+	@Override
+	public void onMessage(NewOrderSingle nos, SessionID sessionID)
+			throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+		logger.info("NewOrderSingle received on session {} => {}", sessionID, nos);
 	}
 
 	@Override
@@ -97,7 +106,8 @@ public class QFJApplication implements quickfix.Application, ExecutionReportNoti
 		qfjER.set(new LeavesQty(er.getLeavesQty()));
 		qfjER.set(new Side(er.getOrder().getSide()));
 		qfjER.set(new Instrument(new Symbol(er.getOrder().getSymbol())));
+		// logger.info("Sending to session {}. Msg {}", sessionID, msg);
 		// TODO send
-//		Session.sendToTarget(qfjER, currentSession);
+		// Session.sendToTarget(qfjER, currentSession);
 	}
 }
