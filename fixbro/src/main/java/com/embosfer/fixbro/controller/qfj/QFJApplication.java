@@ -50,12 +50,15 @@ public class QFJApplication extends quickfix.fix44.MessageCracker
 
 	private static final Logger logger = LoggerFactory.getLogger(QFJApplication.class);
 
+	// callback notifying of every "admin" message (eg. logon, heartbeat) received from the outside world
 	@Override
 	public void fromAdmin(Message msg, SessionID sessionID)
 			throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, RejectLogon {
-		logger.info("fromAdmin on session {}. Msg {}", sessionID, msg);
+		if (logger.isDebugEnabled())
+			logger.debug("fromAdmin on session {}. Msg {}", sessionID, msg);
 	}
 
+	// callback notifying of every "app" message (eg. NOS, ER) received from the outside world
 	@Override
 	public void fromApp(Message msg, SessionID sessionID)
 			throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
