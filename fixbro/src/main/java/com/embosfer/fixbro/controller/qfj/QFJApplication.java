@@ -104,7 +104,7 @@ public class QFJApplication extends quickfix.fix44.MessageCracker
 		qfjER.set(new CumQty(er.getCumQty()));
 		qfjER.set(new AvgPx(er.getAvgPx()));
 		qfjER.set(new LeavesQty(er.getLeavesQty()));
-		qfjER.set(new Side(er.getOrder().getSide()));
+		qfjER.set(new Side(er.getOrder().getSide().toChar()));
 		qfjER.set(new Instrument(new Symbol(er.getOrder().getSymbol())));
 		// logger.info("Sending to session {}. Msg {}", sessionID, msg);
 		// TODO send

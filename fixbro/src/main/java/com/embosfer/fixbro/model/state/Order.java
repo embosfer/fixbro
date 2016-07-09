@@ -22,6 +22,7 @@ package com.embosfer.fixbro.model.state;
 
 import com.embosfer.fixbro.model.tags.OrdStatus;
 import com.embosfer.fixbro.model.tags.OrdType;
+import com.embosfer.fixbro.model.tags.Side;
 
 /**
  * Mutable structure that holds the state of an order.
@@ -43,7 +44,7 @@ public interface Order extends ReadOnlyOrder {
 
 	void setTimeInForce(char tif);
 
-	void setSide(char side);
+	void setSide(Side side);
 
 	void setOrdType(OrdType type);
 

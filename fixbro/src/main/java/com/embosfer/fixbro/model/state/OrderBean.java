@@ -22,6 +22,7 @@ package com.embosfer.fixbro.model.state;
 
 import com.embosfer.fixbro.model.tags.OrdStatus;
 import com.embosfer.fixbro.model.tags.OrdType;
+import com.embosfer.fixbro.model.tags.Side;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -46,8 +47,10 @@ public class OrderBean implements Order {
 	private DoubleProperty avgPx;
 	private StringProperty ordStatus;
 	private StringProperty ordType;
+	private StringProperty side;
 	private OrdStatus ordStatusEnum;
 	private OrdType ordTypeEnum;
+	private Side sideEnum;
 
 	public OrderBean() {
 	}
@@ -120,9 +123,12 @@ public class OrderBean implements Order {
 	}
 
 	@Override
-	public char getSide() {
-		// TODO Auto-generated method stub
-		return 0;
+	public Side getSide() {
+		return sideEnum;
+	}
+
+	public StringProperty getSideProperty() {
+		return side;
 	}
 
 	@Override
@@ -219,9 +225,11 @@ public class OrderBean implements Order {
 	}
 
 	@Override
-	public void setSide(char side) {
-		// TODO Auto-generated method stub
-
+	public void setSide(Side s) {
+		this.sideEnum = s;
+		if (side == null)
+			side = new SimpleStringProperty(this, "side");
+		this.side.set(s.toString());
 	}
 
 	@Override

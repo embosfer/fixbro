@@ -18,37 +18,32 @@
  * specific language governing permissions and limitations under the License.
  *
  ***********************************************************************************************************************/
-package com.embosfer.fixbro.model.state;
+package com.embosfer.fixbro.model.tags;
 
-import com.embosfer.fixbro.model.tags.OrdStatus;
-import com.embosfer.fixbro.model.tags.OrdType;
-import com.embosfer.fixbro.model.tags.Side;
+/**
+ * Represents the tag 54 in FIX
+ * 
+ * @author embosfer
+ *
+ */
+public enum Side {
 
-public interface ReadOnlyOrder {
+	BUY('1', "Buy"), SELL('2', "Sell"); // TODO add others
 
-	String getOrderID();
+	private final char fixSide;
+	private final String humanSide;
 
-	String getClOrdID();
+	Side(char fixSide, String humanSide) {
+		this.fixSide = fixSide;
+		this.humanSide = humanSide;
+	}
 
-	String getOrigClOrdID();
-
-	String getSymbol();
-
-	OrdStatus getOrdStatus();
-
-	char getTimeInForce();
-
-	Side getSide();
-
-	OrdType getOrdType();
-
-	double getQty();
-
-	double getAvgPx();
-
-	double getPrice();
+	@Override
+	public String toString() {
+		return fixSide + " (" + humanSide + ")";
+	}
 	
-	double getCumQty();
-	
-	double getLeavesQty();
+	public char toChar() {
+		return fixSide;
+	}
 }

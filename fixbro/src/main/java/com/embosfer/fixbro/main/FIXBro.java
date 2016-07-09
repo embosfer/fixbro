@@ -28,6 +28,7 @@ import com.embosfer.fixbro.model.state.OrderBean;
 import com.embosfer.fixbro.model.state.OrderBook;
 import com.embosfer.fixbro.model.tags.OrdStatus;
 import com.embosfer.fixbro.model.tags.OrdType;
+import com.embosfer.fixbro.model.tags.Side;
 import com.embosfer.fixbro.view.OrderView;
 
 import javafx.application.Application;
@@ -69,6 +70,7 @@ public class FIXBro extends Application {
 		order1.setOrigClOrdID("orig1234");
 		order1.setPrice(1.35D);
 		order1.setQty(1000D);
+		order1.setSide(Side.BUY);
 		order1.setSymbol("EUR/USD");
 		OrderBook.getInstance().addOrder(order1);
 
@@ -83,6 +85,7 @@ public class FIXBro extends Application {
 		order2.setOrigClOrdID("orig1235");
 		order2.setPrice(1.344D);
 		order2.setQty(2000D);
+		order2.setSide(Side.SELL);
 		order2.setSymbol("EUR/USD");
 		OrderBook.getInstance().addOrder(order2);
 

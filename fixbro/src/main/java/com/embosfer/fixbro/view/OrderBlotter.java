@@ -88,12 +88,14 @@ public class OrderBlotter {
 		origClOrdID.setCellValueFactory(cellData -> cellData.getValue().getOrigClOrdIDProperty());
 		TableColumn<OrderBean, Double> price = new TableColumn<>("price");
 		price.setCellValueFactory(cellData -> cellData.getValue().getPriceProperty().asObject());
+		TableColumn<OrderBean, String> side = new TableColumn<>("side");
+		side.setCellValueFactory(cellData -> cellData.getValue().getSideProperty());
 		TableColumn<OrderBean, String> symbol = new TableColumn<>("symbol");
 		symbol.setCellValueFactory(cellData -> cellData.getValue().getSymbolProperty());
 		// TODO fill all values
 
-		getTableView().getColumns().setAll(orderID, origClOrdID, clOrdID, symbol, ordType, price, ordStatus, leavesQty,
-				cumQty, avgPx);
+		getTableView().getColumns().setAll(orderID, symbol, ordType, price, side, ordStatus, leavesQty, cumQty, avgPx,
+				origClOrdID, clOrdID);
 	}
 
 	public TableView<OrderBean> getTableView() {
