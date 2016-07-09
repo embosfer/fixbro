@@ -133,10 +133,10 @@ public class ExecutionReport {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder("[ExecutionReport ");
-		builder.append("execID:").append(execID).append(" execType:").append(execType).append(ordStatus)
-				.append(" lastQty:").append(lastQty).append(" lastPx:").append(lastPx).append(" leavesQty:")
-				.append(leavesQty).append(" cumQty:").append(cumQty).append(" avgPx:").append(avgPx).append(" ")
-				.append(order).append("]");
+		builder.append("execID:").append(execID).append(" execType:").append(execType).append(" ordStatus:")
+				.append(ordStatus).append(" lastQty:").append(lastQty).append(" lastPx:").append(lastPx)
+				.append(" leavesQty:").append(leavesQty).append(" cumQty:").append(cumQty).append(" avgPx:")
+				.append(avgPx).append(" ").append(order).append("]");
 		return builder.toString();
 	}
 
