@@ -46,4 +46,11 @@ public enum Side {
 	public char toChar() {
 		return fixSide;
 	}
+	
+	public static Side valueOf(char side) {
+		for (Side s: Side.values()) {
+			if (side == s.fixSide) return s;
+		}
+		return null;
+	}
 }

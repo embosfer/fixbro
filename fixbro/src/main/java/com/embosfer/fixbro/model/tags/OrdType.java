@@ -42,4 +42,11 @@ public enum OrdType {
 	public String toString() {
 		return fixOrdType + " (" + humanOrdType + ")";
 	}
+	
+	public static OrdType valueOf(char type) {
+		for (OrdType t : OrdType.values()) {
+			if (t.fixOrdType == type) return t;
+		}
+		return null;
+	}
 }
