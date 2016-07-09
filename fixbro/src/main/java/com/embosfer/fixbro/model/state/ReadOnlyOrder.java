@@ -21,6 +21,7 @@
 package com.embosfer.fixbro.model.state;
 
 import com.embosfer.fixbro.model.tags.OrdStatus;
+import com.embosfer.fixbro.model.tags.OrdType;
 
 public interface ReadOnlyOrder {
 
@@ -38,7 +39,7 @@ public interface ReadOnlyOrder {
 
 	char getSide();
 
-	char getOrdType();
+	OrdType getOrdType();
 
 	double getQty();
 

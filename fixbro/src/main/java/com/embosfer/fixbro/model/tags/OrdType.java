@@ -18,42 +18,28 @@
  * specific language governing permissions and limitations under the License.
  *
  ***********************************************************************************************************************/
-package com.embosfer.fixbro.model.state;
-
-import com.embosfer.fixbro.model.tags.OrdStatus;
-import com.embosfer.fixbro.model.tags.OrdType;
+package com.embosfer.fixbro.model.tags;
 
 /**
- * Mutable structure that holds the state of an order.
+ * Represents the tag 40 in FIX
  * 
  * @author embosfer
  *
  */
-public interface Order extends ReadOnlyOrder {
+public enum OrdType {
 
-	void setOrderID(String ID);
+	MARKET('1', "Market"), LIMIT('2', "Limit"), STOP('3', "Stop"); // TODO add other types
 
-	void setClOrdID(String clientID);
+	private final char fixOrdType;
+	private final String humanOrdType;
 
-	void setOrigClOrdID(String origClientID);
-
-	void setSymbol(String symbol);
-
-	void setOrdStatus(OrdStatus status);
-
-	void setTimeInForce(char tif);
-
-	void setSide(char side);
-
-	void setOrdType(OrdType type);
-
-	void setQty(double qty);
-
-	void setAvgPx(double price);
-
-	void setPrice(double price);
-
-	void setCumQty(double cumQty);
-
-	void setLeavesQty(double leavesQty);
+	OrdType(char fixOrdType, String humanOrdType) {
+		this.fixOrdType = fixOrdType;
+		this.humanOrdType = humanOrdType;
+	}
+	
+	@Override
+	public String toString() {
+		return fixOrdType + " (" + humanOrdType + ")";
+	}
 }
