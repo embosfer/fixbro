@@ -93,6 +93,16 @@ public class QFJApplication extends quickfix.fix44.MessageCracker
 	public void onMessage(NewOrderSingle nos, SessionID sessionID)
 			throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
 		logger.info("NewOrderSingle received on session {} => {}", sessionID, nos);
+		com.embosfer.fixbro.model.messages.NewOrderSingle.Builder builder = new com.embosfer.fixbro.model.messages.NewOrderSingle.Builder();
+		// mandatory fields
+		builder.clOrdID(nos.getClOrdID().getValue()).orderQty(nos.getOrderQty().getValue())
+				.ordType(nos.getOrdType().getValue()).side(nos.getSide().getValue())
+				.symbol(nos.getInstrument().getSymbol().getValue()).transactTime(nos.getTransactTime().getValue());
+		
+		// non mandatory fields
+		if (nos.isSetPrice()) builder.price(nos.getPrice().getValue());
+		com.embosfer.fixbro.model.messages.NewOrderSingle newOrderSingle = builder.build();
+		logger.info("Transformed {}", newOrderSingle);
 	}
 
 	@Override
