@@ -51,9 +51,9 @@ public class OrderBlotter {
 		List<OrderBean> orderBeans = orders.stream().map(order -> new OrderBean(order)).collect(Collectors.toList());
 		// add all properties from the table to be updated
 		ObservableList<OrderBean> observableList = FXCollections.observableList(orderBeans,
-				order -> new Observable[] { order.getAvgPxProperty(), order.getLeavesProperty(),
-						order.getClOrdIDProperty(), order.getCumQtyProperty(), order.getPriceProperty(),
-						order.getOrdStatusProperty(), order.getAvgPxProperty() });
+				order -> new Observable[] { order.getAvgPxProperty(), order.getClOrdIDProperty(),
+						order.getCumQtyProperty(), order.getLeavesProperty(), order.getOrdStatusProperty(),
+						order.getPriceProperty(), });
 		observableList.addListener(new InvalidationListener() {
 
 			@Override
@@ -70,26 +70,26 @@ public class OrderBlotter {
 
 	@SuppressWarnings("unchecked")
 	private void createTableColumns() {
-		TableColumn<OrderBean, String> orderID = new TableColumn<>("orderID");
-		orderID.setCellValueFactory(cellData -> cellData.getValue().getIDProperty());
-		TableColumn<OrderBean, String> origClOrdID = new TableColumn<>("origClOrdID");
-		origClOrdID.setCellValueFactory(cellData -> cellData.getValue().getOrigClOrdIDProperty());
-		TableColumn<OrderBean, String> clOrdID = new TableColumn<>("clOrdID");
-		clOrdID.setCellValueFactory(cellData -> cellData.getValue().getClOrdIDProperty());
-		TableColumn<OrderBean, String> symbol = new TableColumn<>("symbol");
-		symbol.setCellValueFactory(cellData -> cellData.getValue().getSymbolProperty());
-		TableColumn<OrderBean, String> ordType = new TableColumn<>("ordType");
-		ordType.setCellValueFactory(cellData -> cellData.getValue().getOrdTypeProperty());
-		TableColumn<OrderBean, Double> price = new TableColumn<>("price");
-		price.setCellValueFactory(cellData -> cellData.getValue().getPriceProperty().asObject());
-		TableColumn<OrderBean, String> ordStatus = new TableColumn<>("ordStatus");
-		ordStatus.setCellValueFactory(cellData -> cellData.getValue().getOrdStatusProperty());
-		TableColumn<OrderBean, Double> leavesQty = new TableColumn<>("leavesQty");
-		leavesQty.setCellValueFactory(cellData -> cellData.getValue().getLeavesProperty().asObject());
-		TableColumn<OrderBean, Double> cumQty = new TableColumn<>("cumQty");
-		cumQty.setCellValueFactory(cellData -> cellData.getValue().getCumQtyProperty().asObject());
 		TableColumn<OrderBean, Double> avgPx = new TableColumn<>("avgPx");
 		avgPx.setCellValueFactory(cellData -> cellData.getValue().getAvgPxProperty().asObject());
+		TableColumn<OrderBean, String> clOrdID = new TableColumn<>("clOrdID");
+		clOrdID.setCellValueFactory(cellData -> cellData.getValue().getClOrdIDProperty());
+		TableColumn<OrderBean, Double> cumQty = new TableColumn<>("cumQty");
+		cumQty.setCellValueFactory(cellData -> cellData.getValue().getCumQtyProperty().asObject());
+		TableColumn<OrderBean, Double> leavesQty = new TableColumn<>("leavesQty");
+		leavesQty.setCellValueFactory(cellData -> cellData.getValue().getLeavesProperty().asObject());
+		TableColumn<OrderBean, String> orderID = new TableColumn<>("orderID");
+		orderID.setCellValueFactory(cellData -> cellData.getValue().getIDProperty());
+		TableColumn<OrderBean, String> ordStatus = new TableColumn<>("ordStatus");
+		ordStatus.setCellValueFactory(cellData -> cellData.getValue().getOrdStatusProperty());
+		TableColumn<OrderBean, String> ordType = new TableColumn<>("ordType");
+		ordType.setCellValueFactory(cellData -> cellData.getValue().getOrdTypeProperty());
+		TableColumn<OrderBean, String> origClOrdID = new TableColumn<>("origClOrdID");
+		origClOrdID.setCellValueFactory(cellData -> cellData.getValue().getOrigClOrdIDProperty());
+		TableColumn<OrderBean, Double> price = new TableColumn<>("price");
+		price.setCellValueFactory(cellData -> cellData.getValue().getPriceProperty().asObject());
+		TableColumn<OrderBean, String> symbol = new TableColumn<>("symbol");
+		symbol.setCellValueFactory(cellData -> cellData.getValue().getSymbolProperty());
 		// TODO fill all values
 
 		getTableView().getColumns().setAll(orderID, origClOrdID, clOrdID, symbol, ordType, price, ordStatus, leavesQty,
