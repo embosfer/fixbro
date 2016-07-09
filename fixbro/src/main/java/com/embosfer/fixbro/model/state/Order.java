@@ -52,7 +52,7 @@ public interface Order extends ReadOnlyOrder {
 
 	void setAvgPx(double price);
 
-	void setPrice(double price);
+	void setPrice(Double price);
 
 	void setCumQty(double cumQty);
 

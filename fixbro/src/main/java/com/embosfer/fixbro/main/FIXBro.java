@@ -80,7 +80,7 @@ public class FIXBro extends Application {
 		order2.setCumQty(0D);
 		order2.setLeavesQty(2000D);
 		order2.setOrderID("myOrderID2");
-		order2.setOrdType(OrdType.MARKET);
+		order2.setOrdType(OrdType.LIMIT);
 		order2.setOrdStatus(OrdStatus.NEW);
 		order2.setOrigClOrdID("orig1235");
 		order2.setPrice(1.344D);

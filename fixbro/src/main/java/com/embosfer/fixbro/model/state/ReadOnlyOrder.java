@@ -46,7 +46,7 @@ public interface ReadOnlyOrder {
 
 	double getAvgPx();
 
-	double getPrice();
+	Double getPrice();
 	
 	double getCumQty();
 	

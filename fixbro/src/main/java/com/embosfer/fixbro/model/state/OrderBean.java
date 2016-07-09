@@ -156,8 +156,8 @@ public class OrderBean implements Order {
 	}
 
 	@Override
-	public double getPrice() {
-		return price.get();
+	public Double getPrice() {
+		return (price == null ? null : price.get());
 	}
 
 	public DoubleProperty getPriceProperty() {
@@ -254,7 +254,8 @@ public class OrderBean implements Order {
 	}
 
 	@Override
-	public void setPrice(double px) {
+	public void setPrice(Double px) {
+		if (px == null) return;
 		if (price == null)
 			price = new SimpleDoubleProperty(this, "price");
 		this.price.set(px);
