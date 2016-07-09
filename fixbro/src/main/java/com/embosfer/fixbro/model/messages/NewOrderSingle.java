@@ -85,9 +85,9 @@ public class NewOrderSingle {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder("[NewOrderSingle ");
-		builder.append("clOrdID:").append(clOrdID).append(" symbol:").append(symbol).append(" side:").append(side)
-				.append(" transactTime:").append(transactTime).append(" orderQty:").append(orderQty).append(" ordType:")
-				.append(ordType).append("]");
+		builder.append("clOrdID:").append(clOrdID).append(" orderQty:").append(orderQty).append(" ordType:")
+				.append(ordType).append(" price:").append(price).append(" side:").append(side).append(" symbol:")
+				.append(symbol).append(" transactTime:").append(transactTime).append("]");
 		return builder.toString();
 	}
 
