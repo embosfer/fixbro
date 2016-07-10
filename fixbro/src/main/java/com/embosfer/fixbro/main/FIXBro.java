@@ -23,6 +23,7 @@ package com.embosfer.fixbro.main;
 import com.embosfer.fixbro.controller.OrderController;
 import com.embosfer.fixbro.controller.OrderControllerImpl;
 import com.embosfer.fixbro.controller.qfj.QFJAcceptor;
+import com.embosfer.fixbro.controller.qfj.QFJApplication;
 import com.embosfer.fixbro.model.state.Order;
 import com.embosfer.fixbro.model.state.OrderBean;
 import com.embosfer.fixbro.model.state.OrderBook;
@@ -55,7 +56,7 @@ public class FIXBro extends Application {
 
 	public static void main(String[] args) throws ConfigError {
 		// start accepting connections
-		final QFJAcceptor acceptor = new QFJAcceptor("fixbro_qfj.cfg");
+		final QFJAcceptor acceptor = new QFJAcceptor("fixbro_qfj.cfg", new QFJApplication());
 		acceptor.start();
 
 		// add some fake orders into the order book

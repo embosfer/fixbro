@@ -23,6 +23,7 @@ package com.embosfer.fixbro.controller.qfj;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import quickfix.Application;
 import quickfix.ConfigError;
 import quickfix.DefaultMessageFactory;
 import quickfix.FileStoreFactory;
@@ -42,9 +43,9 @@ public class QFJAcceptor {
 
 	private final SocketAcceptor acceptor;
 
-	public QFJAcceptor(String settingsFileName) throws ConfigError {
+	public QFJAcceptor(String settingsFileName, Application application) throws ConfigError {
 		final SessionSettings settings = new SessionSettings(settingsFileName);
-		acceptor = new SocketAcceptor(new QFJApplication(), new FileStoreFactory(settings), settings,
+		acceptor = new SocketAcceptor(application, new FileStoreFactory(settings), settings,
 				new DefaultMessageFactory());
 	}
 
