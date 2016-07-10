@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import com.embosfer.fixbro.model.state.Order;
 import com.embosfer.fixbro.model.state.OrderBean;
 import com.embosfer.fixbro.model.state.OrderBook;
+import com.embosfer.fixbro.model.state.OrderObserver;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -38,14 +39,16 @@ import javafx.scene.control.TableView;
 import javafx.util.Callback;
 
 /**
- * {@code TableView} displaying the current status of all orders in the system
+ * Class wrapping a {@code TableView} displaying the current status of all
+ * orders in the system
  * 
  * @author embosfer
  *
  */
-public class OrderBlotter {
+public class OrderBlotter implements OrderObserver {
 
 	private final TableView<OrderBean> tableView;
+	private final ObservableList<OrderBean> observableOrderList;
 
 	OrderBlotter() {
 		// get all orders and transform them into order beans
@@ -67,19 +70,21 @@ public class OrderBlotter {
 			return list.toArray(new Observable[list.size()]);
 		};
 
-		ObservableList<OrderBean> observableList = FXCollections.observableList(orderBeans, extractor);
-		observableList.addListener(new InvalidationListener() {
+		observableOrderList = FXCollections.observableList(orderBeans, extractor);
+		observableOrderList.addListener(new InvalidationListener() {
 
 			@Override
 			public void invalidated(Observable observable) {
 				System.out.println("Invalidated " + observable);
 			}
 		});
-		tableView = new TableView<>(observableList);
+		tableView = new TableView<>(observableOrderList);
 		getTableView().setEditable(false);
 		// With the table defined, we define now the data model: we'll be using
 		// a ObservableList
 		createTableColumns();
+		
+		OrderBook.getInstance().registerOrderObserver(this); // listen to order events
 	}
 
 	@SuppressWarnings("unchecked")
@@ -114,6 +119,11 @@ public class OrderBlotter {
 
 	public TableView<OrderBean> getTableView() {
 		return tableView;
+	}
+
+	@Override
+	public void onNewOrder(Order order) {
+		observableOrderList.add(new OrderBean(order));
 	}
 
 }

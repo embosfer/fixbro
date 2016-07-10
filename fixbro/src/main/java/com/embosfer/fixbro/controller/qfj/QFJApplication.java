@@ -24,7 +24,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.embosfer.fixbro.controller.ExecutionReportNotifier;
+import com.embosfer.fixbro.controller.MessageSender;
+import com.embosfer.fixbro.controller.DirectMessageSender;
 import com.embosfer.fixbro.model.messages.ExecutionReport;
+import com.embosfer.fixbro.model.messages.NewOrderSingle;
 
 import quickfix.DoNotSend;
 import quickfix.FieldNotFound;
@@ -42,15 +45,20 @@ import quickfix.field.OrdStatus;
 import quickfix.field.OrderID;
 import quickfix.field.Side;
 import quickfix.field.Symbol;
-import quickfix.fix44.NewOrderSingle;
 import quickfix.fix44.component.Instrument;
 
 public class QFJApplication extends quickfix.fix44.MessageCracker
 		implements quickfix.Application, ExecutionReportNotifier {
 
 	private static final Logger logger = LoggerFactory.getLogger(QFJApplication.class);
+	private final MessageSender messageSender;
 
-	// callback notifying of every "admin" message (eg. logon, heartbeat) received from the outside world
+	public QFJApplication() {
+		messageSender = new DirectMessageSender();
+	}
+
+	// callback notifying of every "admin" message (eg. logon, heartbeat)
+	// received from the outside world
 	@Override
 	public void fromAdmin(Message msg, SessionID sessionID)
 			throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, RejectLogon {
@@ -58,7 +66,8 @@ public class QFJApplication extends quickfix.fix44.MessageCracker
 			logger.debug("fromAdmin on session {}. Msg {}", sessionID, msg);
 	}
 
-	// callback notifying of every "app" message (eg. NOS, ER) received from the outside world
+	// callback notifying of every "app" message (eg. NOS, ER) received from the
+	// outside world
 	@Override
 	public void fromApp(Message msg, SessionID sessionID)
 			throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
@@ -93,19 +102,22 @@ public class QFJApplication extends quickfix.fix44.MessageCracker
 	}
 
 	@Override
-	public void onMessage(NewOrderSingle nos, SessionID sessionID)
+	public void onMessage(quickfix.fix44.NewOrderSingle qfjNos, SessionID sessionID)
 			throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
-		logger.info("NewOrderSingle received on session {} => {}", sessionID, nos);
-		com.embosfer.fixbro.model.messages.NewOrderSingle.Builder builder = new com.embosfer.fixbro.model.messages.NewOrderSingle.Builder();
+		logger.info("NewOrderSingle received on session {} => {}", sessionID, qfjNos);
+		NewOrderSingle.Builder builder = new NewOrderSingle.Builder();
 		// mandatory fields
-		builder.clOrdID(nos.getClOrdID().getValue()).orderQty(nos.getOrderQty().getValue())
-				.ordType(nos.getOrdType().getValue()).side(nos.getSide().getValue())
-				.symbol(nos.getInstrument().getSymbol().getValue()).transactTime(nos.getTransactTime().getValue());
-		
+		builder.clOrdID(qfjNos.getClOrdID().getValue()).orderQty(qfjNos.getOrderQty().getValue())
+				.ordType(qfjNos.getOrdType().getValue()).side(qfjNos.getSide().getValue())
+				.symbol(qfjNos.getInstrument().getSymbol().getValue())
+				.transactTime(qfjNos.getTransactTime().getValue());
+
 		// non mandatory fields
-		if (nos.isSetPrice()) builder.price(nos.getPrice().getValue());
-		com.embosfer.fixbro.model.messages.NewOrderSingle newOrderSingle = builder.build();
-		logger.info("Transformed {}", newOrderSingle);
+		if (qfjNos.isSetPrice())
+			builder.price(qfjNos.getPrice().getValue());
+		NewOrderSingle nos = builder.build();
+		logger.info("Transformed {}", nos);
+		messageSender.sendNewOrderSingle(nos);
 	}
 
 	@Override

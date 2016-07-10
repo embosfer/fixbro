@@ -18,31 +18,22 @@
  * specific language governing permissions and limitations under the License.
  *
  ***********************************************************************************************************************/
-package com.embosfer.fixbro.model.tags;
+package com.embosfer.fixbro.controller;
 
-public enum OrdStatus {
+import com.embosfer.fixbro.controller.actions.ProcessNewOrder;
+import com.embosfer.fixbro.model.messages.NewOrderSingle;
 
-	// TODO finish statuses
-	NONE_YET('.', "None yet"), // this status is only added for display in
-								// blotter (for newly arrived orders)
-	PENDING_NEW('A', "Pending New"), NEW('0', "New"), PARTIALLY_FILLED('1', "Partially Filled"), FILLED('2',
-			"Filled"), DONE_FOR_DAY('3', "Done for Day"), CANCELED('4', "Canceled");
-
-	private final char fixStatus;
-	private final String humanStatus;
-
-	OrdStatus(char status, String humanStatus) {
-		this.fixStatus = status;
-		this.humanStatus = humanStatus;
-	}
+/**
+ * Sends the message without thread switch
+ * 
+ * @author embosfer
+ *
+ */
+public class DirectMessageSender implements MessageSender {
 
 	@Override
-	public String toString() {
-		return fixStatus + " (" + humanStatus + ")";
-	}
-
-	public char toChar() {
-		return fixStatus;
+	public void sendNewOrderSingle(NewOrderSingle nos) {
+		new ProcessNewOrder(nos);
 	}
 
 }
