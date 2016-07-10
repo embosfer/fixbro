@@ -60,6 +60,7 @@ public class OrderBlotter {
 			list.add(order.getCumQtyProperty());
 			list.add(order.getLeavesProperty());
 			list.add(order.getOrdStatusProperty());
+			list.add(order.getOrigClOrdIDProperty());
 			// for Market orders, no need to observe Price
 			if (order.getPrice() != null)
 				list.add(order.getPriceProperty());
