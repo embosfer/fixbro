@@ -34,6 +34,7 @@ import com.embosfer.fixbro.model.tags.Side;
 public class NewOrderSingle {
 
 	// MANDATORY FIELDS
+	private final String senderCompID; // 49
 	private final String clOrdID; // 11
 	private final String symbol; // 55
 	private final Side side; // 54
@@ -45,6 +46,7 @@ public class NewOrderSingle {
 	private Double price; // 44
 
 	private NewOrderSingle(Builder builder) {
+		this.senderCompID = builder.senderCompID;
 		this.clOrdID = builder.clOrdID;
 		this.symbol = builder.symbol;
 		this.side = builder.side;
@@ -85,14 +87,16 @@ public class NewOrderSingle {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder("[NewOrderSingle ");
-		builder.append("clOrdID:").append(clOrdID).append(" orderQty:").append(orderQty).append(" ordType:")
-				.append(ordType).append(" price:").append(price).append(" side:").append(side).append(" symbol:")
-				.append(symbol).append(" transactTime:").append(transactTime).append("]");
+		builder.append("senderCompID:").append(senderCompID).append(" clOrdID:").append(clOrdID).append(" orderQty:")
+				.append(orderQty).append(" ordType:").append(ordType).append(" price:").append(price).append(" side:")
+				.append(side).append(" symbol:").append(symbol).append(" transactTime:").append(transactTime)
+				.append("]");
 		return builder.toString();
 	}
 
 	public final static class Builder {
 
+		private String senderCompID;
 		private String clOrdID;
 		private String symbol;
 		private Side side;
@@ -104,6 +108,11 @@ public class NewOrderSingle {
 		private Double price;
 
 		public Builder() {
+		}
+		
+		public Builder senderCompID(String senderCompID) {
+			this.senderCompID = senderCompID;
+			return this;
 		}
 
 		public Builder clOrdID(String clOrdID) {
