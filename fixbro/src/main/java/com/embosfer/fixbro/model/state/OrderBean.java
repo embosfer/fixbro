@@ -41,7 +41,6 @@ public class OrderBean implements Order {
 	private StringProperty origClOrdID;
 	private StringProperty clOrdID;
 	private StringProperty symbol;
-	private DoubleProperty price;
 	private DoubleProperty leavesQty;
 	private DoubleProperty cumQty;
 	private DoubleProperty avgPx;
@@ -51,6 +50,9 @@ public class OrderBean implements Order {
 	private OrdStatus ordStatusEnum;
 	private OrdType ordTypeEnum;
 	private Side sideEnum;
+
+	// non mandatory fields
+	private StringProperty price;
 
 	public OrderBean() {
 	}
@@ -157,10 +159,10 @@ public class OrderBean implements Order {
 
 	@Override
 	public Double getPrice() {
-		return (price == null ? null : price.get());
+		return (price == null || price.get() == null ? null : Double.parseDouble(price.get()));
 	}
 
-	public DoubleProperty getPriceProperty() {
+	public StringProperty getPriceProperty() {
 		return price;
 	}
 
@@ -255,10 +257,10 @@ public class OrderBean implements Order {
 
 	@Override
 	public void setPrice(Double px) {
-		if (px == null) return;
 		if (price == null)
-			price = new SimpleDoubleProperty(this, "price");
-		this.price.set(px);
+			price = new SimpleStringProperty(this, "price");
+		if (px != null)
+			this.price.set(px.toString());
 	}
 
 	@Override

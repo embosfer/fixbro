@@ -20,6 +20,7 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.view;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +35,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.util.Callback;
 
 /**
  * {@code TableView} displaying the current status of all orders in the system
@@ -50,15 +52,26 @@ public class OrderBlotter {
 		Collection<Order> orders = OrderBook.getInstance().getAllOrders();
 		List<OrderBean> orderBeans = orders.stream().map(order -> new OrderBean(order)).collect(Collectors.toList());
 		// add all properties from the table to be updated
-		ObservableList<OrderBean> observableList = FXCollections.observableList(orderBeans,
-				order -> new Observable[] { order.getAvgPxProperty(), order.getClOrdIDProperty(),
-						order.getCumQtyProperty(), order.getLeavesProperty(), order.getOrdStatusProperty(),
-						order.getPriceProperty(), });
+
+		Callback<OrderBean, Observable[]> extractor = order -> {
+			List<Observable> list = new ArrayList<>();
+			list.add(order.getAvgPxProperty());
+			list.add(order.getClOrdIDProperty());
+			list.add(order.getCumQtyProperty());
+			list.add(order.getLeavesProperty());
+			list.add(order.getOrdStatusProperty());
+			// for Market orders, no need to observe Price
+			if (order.getPrice() != null)
+				list.add(order.getPriceProperty());
+			return list.toArray(new Observable[list.size()]);
+		};
+
+		ObservableList<OrderBean> observableList = FXCollections.observableList(orderBeans, extractor);
 		observableList.addListener(new InvalidationListener() {
 
 			@Override
 			public void invalidated(Observable observable) {
-				System.out.println("Paaaam"); //
+				System.out.println("Invalidated " + observable);
 			}
 		});
 		tableView = new TableView<>(observableList);
@@ -86,8 +99,8 @@ public class OrderBlotter {
 		ordType.setCellValueFactory(cellData -> cellData.getValue().getOrdTypeProperty());
 		TableColumn<OrderBean, String> origClOrdID = new TableColumn<>("origClOrdID");
 		origClOrdID.setCellValueFactory(cellData -> cellData.getValue().getOrigClOrdIDProperty());
-		TableColumn<OrderBean, Double> price = new TableColumn<>("price");
-		price.setCellValueFactory(cellData -> cellData.getValue().getPriceProperty().asObject());
+		TableColumn<OrderBean, String> price = new TableColumn<>("price");
+		price.setCellValueFactory(cellData -> cellData.getValue().getPriceProperty());
 		TableColumn<OrderBean, String> side = new TableColumn<>("side");
 		side.setCellValueFactory(cellData -> cellData.getValue().getSideProperty());
 		TableColumn<OrderBean, String> symbol = new TableColumn<>("symbol");
