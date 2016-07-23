@@ -23,7 +23,8 @@ package com.embosfer.fixbro.controller;
 import com.embosfer.fixbro.model.state.Order;
 
 /**
- * Controller part of the MVC model
+ * Controller part of the MVC model. Provides actions to be applied on an
+ * {@link Order}
  * 
  * @author embosfer
  */
