@@ -20,6 +20,8 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.view;
 
+import java.util.concurrent.Executor;
+
 import com.embosfer.fixbro.controller.OrderController;
 import com.embosfer.fixbro.model.state.OrderBean;
 
@@ -44,11 +46,12 @@ import javafx.stage.Stage;
  *
  */
 public class ExecuteOrderStage extends Stage {
+
 	private TextField txtLastQty;
 	private TextField txtLastPx;
 	private OrderBean order;
 
-	ExecuteOrderStage(OrderController orderController) {
+	ExecuteOrderStage(OrderController orderController, Executor backgroundExecutor) {
 		BorderPane borderPaneRoot = new BorderPane();
 		borderPaneRoot.setPadding(new Insets(10));
 		final Scene scene = new Scene(borderPaneRoot, 300, 150);
@@ -83,7 +86,10 @@ public class ExecuteOrderStage extends Stage {
 		// button
 		Button buttonExecute = new Button("Execute");
 		buttonExecute.setOnAction(event -> {
-			orderController.execute(order, Double.valueOf(txtLastPx.getText()), Double.valueOf(txtLastQty.getText()));
+			backgroundExecutor.execute(() -> {
+				orderController.execute(order, Double.valueOf(txtLastPx.getText()),
+						Double.valueOf(txtLastQty.getText()));
+			});
 			ExecuteOrderStage.this.hide();
 		});
 		buttonExecute.disableProperty()

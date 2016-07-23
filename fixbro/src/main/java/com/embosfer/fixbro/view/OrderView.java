@@ -20,6 +20,9 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.view;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import com.embosfer.fixbro.controller.OrderController;
 import com.embosfer.fixbro.model.state.OrderBean;
 
@@ -48,9 +51,11 @@ public class OrderView extends Application {
 	private final OrderController controller;
 	private ExecuteOrderStage executeOrderStage;
 	private TableView<OrderBean> orderTableView;
+	private final Executor backgroundExecutor;
 
 	public OrderView(OrderController controller) {
 		this.controller = controller;
+		this.backgroundExecutor = Executors.newCachedThreadPool();
 	}
 
 	@Override
@@ -115,7 +120,7 @@ public class OrderView extends Application {
 
 	private void createOrShowExecuteWindow(String orderID) {
 		if (executeOrderStage == null) {
-			executeOrderStage = new ExecuteOrderStage(controller);
+			executeOrderStage = new ExecuteOrderStage(controller, backgroundExecutor);
 		}
 		OrderBean order = orderTableView.getSelectionModel().getSelectedItem();
 		executeOrderStage.setTargetOrder(order);
