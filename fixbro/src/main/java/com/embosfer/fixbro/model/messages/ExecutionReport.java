@@ -21,6 +21,7 @@
 package com.embosfer.fixbro.model.messages;
 
 import com.embosfer.fixbro.model.state.Order;
+import com.embosfer.fixbro.model.tags.ExecType;
 import com.embosfer.fixbro.model.tags.OrdStatus;
 
 /**
@@ -38,7 +39,7 @@ public class ExecutionReport {
 	private final Order order;
 
 	private final String execID;
-	private final char execType;
+	private final ExecType execType;
 	private final OrdStatus ordStatus;
 	private final double avgPx;
 	private final double cumQty;
@@ -51,19 +52,15 @@ public class ExecutionReport {
 	public static class Builder {
 		// mandatory fields
 		private final Order order;
-		private char execType;
+		private ExecType execType;
 
 		// optional fields
 		private double lastQty;
 		private double lastPx;
 
-		public Builder(Order order) {
-			this.order = order;
-		}
-
-		public Builder execType(char execType) {
+		public Builder(ExecType execType, Order order) {
 			this.execType = execType;
-			return this;
+			this.order = order;
 		}
 
 		public Builder lastPx(double lastPx) {
@@ -106,7 +103,7 @@ public class ExecutionReport {
 		return cumQty;
 	}
 
-	public char getExecType() {
+	public ExecType getExecType() {
 		return execType;
 	}
 

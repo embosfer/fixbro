@@ -23,6 +23,7 @@ package com.embosfer.fixbro.controller.actions;
 import com.embosfer.fixbro.controller.ExecutionReportProducer;
 import com.embosfer.fixbro.model.messages.ExecutionReport;
 import com.embosfer.fixbro.model.state.Order;
+import com.embosfer.fixbro.model.tags.ExecType;
 import com.embosfer.fixbro.model.tags.OrdStatus;
 
 /**
@@ -76,11 +77,8 @@ public class ExecuteOrder implements ExecutionReportProducer {
 
 	@Override
 	public ExecutionReport getExecutionReport() {
-		// FIXME execType to be added
-		ExecutionReport.Builder builder = new ExecutionReport.Builder(order);
-		builder
-				// execType(ordStatus
-				.lastPx(lastPx).lastQty(lastQty);
+		ExecutionReport.Builder builder = new ExecutionReport.Builder(ExecType.TRADE, order);
+		builder.lastPx(lastPx).lastQty(lastQty);
 		return builder.build();
 	}
 
