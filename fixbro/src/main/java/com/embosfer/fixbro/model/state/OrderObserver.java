@@ -29,6 +29,11 @@ package com.embosfer.fixbro.model.state;
  */
 public interface OrderObserver {
 
-	void onNewOrder(Order order);
+	/**
+	 * Notifies when a new order got added into the order book
+	 * 
+	 * @param theNewOrder
+	 */
+	void onNewOrder(Order theNewOrder);
 
 }
