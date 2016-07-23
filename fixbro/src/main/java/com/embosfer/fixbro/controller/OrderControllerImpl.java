@@ -23,7 +23,9 @@ package com.embosfer.fixbro.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.embosfer.fixbro.controller.actions.ExecuteOrder;
+import com.embosfer.fixbro.controller.er.processor.ExecutionReportProcessor;
+import com.embosfer.fixbro.controller.er.producer.ExecuteOrder;
+import com.embosfer.fixbro.controller.er.producer.ExecutionReportProducer;
 import com.embosfer.fixbro.model.messages.ExecutionReport;
 import com.embosfer.fixbro.model.state.Order;
 
@@ -36,16 +38,23 @@ import com.embosfer.fixbro.model.state.Order;
 public class OrderControllerImpl implements OrderController {
 
 	private final Logger log = LoggerFactory.getLogger(OrderControllerImpl.class);
-	
-	private void sendExecutionReport(ExecutionReportProducer executionProducer) {
+
+	private final ExecutionReportProcessor erProcessor;
+
+	public OrderControllerImpl(ExecutionReportProcessor erProcessor) {
+		this.erProcessor = erProcessor;
+	}
+
+	private void processExecutionReport(ExecutionReportProducer executionProducer) {
 		ExecutionReport er = executionProducer.getExecutionReport();
-		log.info("Sending {}", er);
-		// TODO send Execution out
+		erProcessor.process(er);
 	}
 
 	@Override
 	public void execute(Order order, double lastPx, double lastQty) {
-		sendExecutionReport(new ExecuteOrder(order, lastPx, lastQty));
+		log.info("Executing order {} with lastPx {} and lastQty {}",
+				new Object[] { order.getOrderID(), lastPx, lastQty });
+		processExecutionReport(new ExecuteOrder(order, lastPx, lastQty));
 	}
 
 	@Override
