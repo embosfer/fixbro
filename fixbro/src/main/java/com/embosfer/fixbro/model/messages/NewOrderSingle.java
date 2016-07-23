@@ -80,7 +80,7 @@ public class NewOrderSingle {
 		return ordType;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
