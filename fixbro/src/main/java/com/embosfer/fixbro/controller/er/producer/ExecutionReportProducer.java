@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations under the License.
  *
  ***********************************************************************************************************************/
-package com.embosfer.fixbro.controller;
+package com.embosfer.fixbro.controller.er.producer;
 
 import com.embosfer.fixbro.model.messages.ExecutionReport;
 
