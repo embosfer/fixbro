@@ -20,10 +20,17 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.main;
 
+import java.util.Arrays;
+
 import com.embosfer.fixbro.controller.OrderController;
 import com.embosfer.fixbro.controller.OrderControllerImpl;
+import com.embosfer.fixbro.controller.er.processor.ExecutionReportProcessor;
+import com.embosfer.fixbro.controller.er.processor.ExecutionReportProcessorImpl;
 import com.embosfer.fixbro.controller.qfj.QFJAcceptor;
-import com.embosfer.fixbro.controller.qfj.QFJApplication;
+import com.embosfer.fixbro.controller.qfj.QFJApplicationIn;
+import com.embosfer.fixbro.controller.qfj.QFJApplicationOut;
+import com.embosfer.fixbro.controller.sender.DirectMessageSender;
+import com.embosfer.fixbro.controller.sender.MessageSender;
 import com.embosfer.fixbro.model.state.Order;
 import com.embosfer.fixbro.model.state.OrderBean;
 import com.embosfer.fixbro.model.state.OrderBook;
@@ -48,17 +55,20 @@ import quickfix.ConfigError;
 public class FIXBro extends Application {
 
 	private Application view;
+	private QFJAcceptor acceptor;
 
-	public FIXBro() {
-		OrderController controller = new OrderControllerImpl();
+	public FIXBro() throws ConfigError {
+		// sending strategy: directly
+		MessageSender directSender = new DirectMessageSender();
+		acceptor = new QFJAcceptor("fixbro_qfj.cfg", new QFJApplicationIn(directSender));
+
+		ExecutionReportProcessor erProcessor = new ExecutionReportProcessorImpl(Arrays.asList(new QFJApplicationOut()));
+		OrderController controller = new OrderControllerImpl(erProcessor);
 		view = new OrderView(controller);
 	}
 
-	public static void main(String[] args) throws ConfigError {
-		// start accepting connections
-		final QFJAcceptor acceptor = new QFJAcceptor("fixbro_qfj.cfg", new QFJApplication());
-		acceptor.start();
-
+	public static void main(String[] args) {
+		// TEST DATA
 		// add some fake orders into the order book
 		Order order1 = new OrderBean();
 		order1.setAvgPx(0D);
@@ -91,12 +101,17 @@ public class FIXBro extends Application {
 
 		// launch JavaFX
 		launch(args);
-
-		acceptor.stop();
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		acceptor.start(); // start accepting connections
 		view.start(primaryStage);
+	}
+
+	@Override
+	public void stop() throws Exception {
+		super.stop();
+		acceptor.stop();
 	}
 }
