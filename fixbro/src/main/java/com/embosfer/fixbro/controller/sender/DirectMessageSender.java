@@ -18,9 +18,8 @@
  * specific language governing permissions and limitations under the License.
  *
  ***********************************************************************************************************************/
-package com.embosfer.fixbro.controller;
+package com.embosfer.fixbro.controller.sender;
 
-import com.embosfer.fixbro.controller.actions.ProcessNewOrder;
 import com.embosfer.fixbro.model.messages.NewOrderSingle;
 
 /**

@@ -18,12 +18,12 @@
  * specific language governing permissions and limitations under the License.
  *
  ***********************************************************************************************************************/
-package com.embosfer.fixbro.controller;
+package com.embosfer.fixbro.controller.sender;
 
 import com.embosfer.fixbro.model.messages.NewOrderSingle;
 
 /**
- * Point of entry of messages coming from the external world
+ * Point of entry for messages coming from the external world
  * 
  * @author embosfer
  *
