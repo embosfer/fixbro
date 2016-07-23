@@ -23,10 +23,7 @@ package com.embosfer.fixbro.controller.qfj;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.embosfer.fixbro.controller.ExecutionReportNotifier;
-import com.embosfer.fixbro.controller.MessageSender;
-import com.embosfer.fixbro.controller.DirectMessageSender;
-import com.embosfer.fixbro.model.messages.ExecutionReport;
+import com.embosfer.fixbro.controller.sender.MessageSender;
 import com.embosfer.fixbro.model.messages.NewOrderSingle;
 
 import quickfix.DoNotSend;
@@ -37,24 +34,15 @@ import quickfix.Message;
 import quickfix.RejectLogon;
 import quickfix.SessionID;
 import quickfix.UnsupportedMessageType;
-import quickfix.field.AvgPx;
-import quickfix.field.CumQty;
-import quickfix.field.ExecType;
-import quickfix.field.LeavesQty;
-import quickfix.field.OrdStatus;
-import quickfix.field.OrderID;
-import quickfix.field.Side;
-import quickfix.field.Symbol;
-import quickfix.fix44.component.Instrument;
+import quickfix.field.SenderCompID;
 
-public class QFJApplication extends quickfix.fix44.MessageCracker
-		implements quickfix.Application, ExecutionReportNotifier {
+public class QFJApplicationIn extends quickfix.fix44.MessageCracker implements quickfix.Application {
 
-	private static final Logger logger = LoggerFactory.getLogger(QFJApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(QFJApplicationIn.class);
 	private final MessageSender messageSender;
 
-	public QFJApplication() {
-		messageSender = new DirectMessageSender();
+	public QFJApplicationIn(MessageSender messageSender) {
+		this.messageSender = messageSender;
 	}
 
 	// callback notifying of every "admin" message (eg. logon, heartbeat)
@@ -107,7 +95,8 @@ public class QFJApplication extends quickfix.fix44.MessageCracker
 		logger.info("NewOrderSingle received on session {} => {}", sessionID, qfjNos);
 		NewOrderSingle.Builder builder = new NewOrderSingle.Builder();
 		// mandatory fields
-		builder.clOrdID(qfjNos.getClOrdID().getValue()).orderQty(qfjNos.getOrderQty().getValue())
+		builder.senderCompID(qfjNos.getHeader().getField(new SenderCompID()).getValue())
+				.clOrdID(qfjNos.getClOrdID().getValue()).orderQty(qfjNos.getOrderQty().getValue())
 				.ordType(qfjNos.getOrdType().getValue()).side(qfjNos.getSide().getValue())
 				.symbol(qfjNos.getInstrument().getSymbol().getValue())
 				.transactTime(qfjNos.getTransactTime().getValue());
@@ -120,19 +109,4 @@ public class QFJApplication extends quickfix.fix44.MessageCracker
 		messageSender.sendNewOrderSingle(nos);
 	}
 
-	@Override
-	public void notify(ExecutionReport er) {
-		quickfix.fix44.ExecutionReport qfjER = new quickfix.fix44.ExecutionReport();
-		qfjER.set(new OrderID(er.getOrder().getOrderID()));
-		qfjER.set(new OrdStatus(er.getOrdStatus().toChar()));
-		qfjER.set(new ExecType(er.getExecType()));
-		qfjER.set(new CumQty(er.getCumQty()));
-		qfjER.set(new AvgPx(er.getAvgPx()));
-		qfjER.set(new LeavesQty(er.getLeavesQty()));
-		qfjER.set(new Side(er.getOrder().getSide().toChar()));
-		qfjER.set(new Instrument(new Symbol(er.getOrder().getSymbol())));
-		// logger.info("Sending to session {}. Msg {}", sessionID, msg);
-		// TODO send
-		// Session.sendToTarget(qfjER, currentSession);
-	}
 }
