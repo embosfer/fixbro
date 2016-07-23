@@ -38,6 +38,7 @@ public class ExecutionReport {
 
 	private final Order order;
 
+	private final String clOrdID;
 	private final String execID;
 	private final ExecType execType;
 	private final OrdStatus ordStatus;
@@ -80,6 +81,7 @@ public class ExecutionReport {
 	}
 
 	private ExecutionReport(Builder builder) {
+		this.clOrdID = builder.order.getClOrdID();
 		this.execID = "E" + System.currentTimeMillis(); // ensure unicity
 		this.order = builder.order;
 		this.avgPx = builder.order.getAvgPx();
@@ -127,13 +129,17 @@ public class ExecutionReport {
 		return ordStatus;
 	}
 
+	public String getClOrdID() {
+		return clOrdID;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder("[ExecutionReport ");
-		builder.append("execID:").append(execID).append(" execType:").append(execType).append(" ordStatus:")
-				.append(ordStatus).append(" lastQty:").append(lastQty).append(" lastPx:").append(lastPx)
-				.append(" leavesQty:").append(leavesQty).append(" cumQty:").append(cumQty).append(" avgPx:")
-				.append(avgPx).append(" ").append(order).append("]");
+		builder.append("clOrdID: ").append(getClOrdID()).append(" execID:").append(execID).append(" execType:")
+				.append(execType).append(" ordStatus:").append(ordStatus).append(" lastQty:").append(lastQty)
+				.append(" lastPx:").append(lastPx).append(" leavesQty:").append(leavesQty).append(" cumQty:")
+				.append(cumQty).append(" avgPx:").append(avgPx).append(" ").append(order).append("]");
 		return builder.toString();
 	}
 
