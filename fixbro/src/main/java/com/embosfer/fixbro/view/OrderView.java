@@ -24,21 +24,12 @@ import com.embosfer.fixbro.controller.OrderController;
 import com.embosfer.fixbro.model.state.OrderBean;
 
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -79,7 +70,7 @@ public class OrderView extends Application {
 
 	private Node buildTopPane() {
 		VBox vbox = new VBox();
-		applyStyleTo(vbox);
+		DisplayUtils.applyStyleTo(vbox);
 		vbox.setSpacing(8);
 		Text title = new Text("ORDER BLOTTER");
 		title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -98,7 +89,7 @@ public class OrderView extends Application {
 	private Node buildBottomPane() {
 		HBox hbox = new HBox();
 		hbox.setSpacing(10);
-		applyStyleTo(hbox);
+		DisplayUtils.applyStyleTo(hbox);
 
 		Button buttonAck = new Button("Acknowledge");
 		buttonAck.setOnAction(event -> {
@@ -116,11 +107,6 @@ public class OrderView extends Application {
 		return hbox;
 	}
 
-	private void applyStyleTo(Pane pane) {
-		pane.setStyle("-fx-background-color: #336699;");
-		pane.setPadding(new Insets(10));
-	}
-
 	private void disableIfNoSelection(Button... buttons) {
 		for (Button button : buttons) {
 			button.disableProperty().bind(orderTableView.getSelectionModel().selectedItemProperty().isNull());
@@ -129,65 +115,11 @@ public class OrderView extends Application {
 
 	private void createOrShowExecuteWindow(String orderID) {
 		if (executeOrderStage == null) {
-			executeOrderStage = new ExecuteOrderStage(orderID);
+			executeOrderStage = new ExecuteOrderStage(controller);
 		}
+		OrderBean order = orderTableView.getSelectionModel().getSelectedItem();
+		executeOrderStage.setTargetOrder(order);
 		executeOrderStage.show();
-	}
-
-	private class ExecuteOrderStage extends Stage {
-		private TextField txtLastQty;
-		private TextField txtLastPx;
-
-		ExecuteOrderStage(String orderID) {
-			BorderPane borderPaneRoot = new BorderPane();
-			borderPaneRoot.setPadding(new Insets(10));
-			final Scene scene = new Scene(borderPaneRoot, 300, 150);
-
-			GridPane grid = new GridPane();
-			applyStyleTo(grid);
-			grid.setHgap(10D);
-			grid.setVgap(10D);
-
-			// last qty
-			Label lblQty = new Label("Last qty");
-			lblQty.setTextFill(Color.WHITE);
-			GridPane.setHalignment(lblQty, HPos.RIGHT);
-			grid.add(lblQty, 0, 0);
-			txtLastQty = new TextField();
-			txtLastQty.setMaxWidth(Double.MAX_VALUE);
-			GridPane.setHgrow(txtLastQty, Priority.ALWAYS);
-			GridPane.setHalignment(txtLastQty, HPos.LEFT);
-			grid.add(txtLastQty, 1, 0);
-
-			// last price
-			Label lblPx = new Label("Last px");
-			lblPx.setTextFill(Color.WHITE);
-			grid.add(lblPx, 0, 1);
-			GridPane.setHalignment(lblPx, HPos.RIGHT);
-			txtLastPx = new TextField();
-			txtLastPx.setMaxWidth(Double.MAX_VALUE);
-			GridPane.setHgrow(txtLastPx, Priority.ALWAYS);
-			GridPane.setHalignment(txtLastPx, HPos.LEFT);
-			grid.add(txtLastPx, 1, 1);
-
-			// button
-			Button buttonExecute = new Button("Execute");
-			buttonExecute.setOnAction(event -> {
-				OrderBean order = orderTableView.getSelectionModel().getSelectedItem();
-				controller.execute(order, Double.valueOf(txtLastPx.getText()), Double.valueOf(txtLastQty.getText()));
-				ExecuteOrderStage.this.hide();
-			});
-			buttonExecute.disableProperty()
-					.bind(Bindings.isEmpty(txtLastPx.textProperty()).or(Bindings.isEmpty(txtLastQty.textProperty())));
-
-			buttonExecute.setAlignment(Pos.BASELINE_RIGHT);
-			GridPane.setHalignment(buttonExecute, HPos.RIGHT);
-			grid.add(buttonExecute, 1, 2);
-			borderPaneRoot.setCenter(grid);
-
-			setScene(scene);
-			setTitle("Execute order " + orderID);
-		}
 	}
 
 }
