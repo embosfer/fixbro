@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import com.embosfer.fixbro.controller.er.processor.ExecutionReportProcessor;
 import com.embosfer.fixbro.controller.er.producer.ExecuteOrder;
 import com.embosfer.fixbro.controller.er.producer.ExecutionReportProducer;
+import com.embosfer.fixbro.controller.er.producer.PendingNewOrder;
 import com.embosfer.fixbro.model.messages.ExecutionReport;
 import com.embosfer.fixbro.model.state.Order;
 
@@ -95,8 +96,8 @@ public class OrderControllerImpl implements OrderController {
 
 	@Override
 	public void pendingNew(Order order) {
-		// TODO Auto-generated method stub
-
+		log.info("To Pending New, order {}", order.getOrderID());
+		processExecutionReport(new PendingNewOrder(order));
 	}
 
 	@Override

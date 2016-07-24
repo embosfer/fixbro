@@ -96,9 +96,10 @@ public class OrderView extends Application {
 		hbox.setSpacing(10);
 		DisplayUtils.applyStyleTo(hbox);
 
-		Button buttonAck = new Button("Acknowledge");
+		Button buttonAck = new Button("Pending New");
 		buttonAck.setOnAction(event -> {
-			System.out.println(event);
+			OrderBean selectedOrder = orderTableView.getSelectionModel().getSelectedItem();
+			controller.pendingNew(selectedOrder);
 		});
 
 		Button buttonExecute = new Button("Execute");
