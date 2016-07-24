@@ -20,7 +20,7 @@
  ***********************************************************************************************************************/
 package com.embosfer.fixbro.model.messages;
 
-import com.embosfer.fixbro.model.state.Order;
+import com.embosfer.fixbro.model.state.ReadOnlyOrder;
 import com.embosfer.fixbro.model.tags.ExecType;
 import com.embosfer.fixbro.model.tags.OrdStatus;
 
@@ -36,7 +36,7 @@ import com.embosfer.fixbro.model.tags.OrdStatus;
  */
 public class ExecutionReport {
 
-	private final Order order;
+	private final ReadOnlyOrder order;
 
 	private final String clOrdID;
 	private final String execID;
@@ -52,14 +52,14 @@ public class ExecutionReport {
 
 	public static class Builder {
 		// mandatory fields
-		private final Order order;
+		private final ReadOnlyOrder order;
 		private ExecType execType;
 
 		// optional fields
 		private double lastQty;
 		private double lastPx;
 
-		public Builder(ExecType execType, Order order) {
+		public Builder(ExecType execType, ReadOnlyOrder order) {
 			this.execType = execType;
 			this.order = order;
 		}
@@ -121,7 +121,7 @@ public class ExecutionReport {
 		return leavesQty;
 	}
 
-	public Order getOrder() {
+	public ReadOnlyOrder getOrder() {
 		return order;
 	}
 
