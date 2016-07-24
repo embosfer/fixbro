@@ -34,6 +34,8 @@ import quickfix.field.ClOrdID;
 import quickfix.field.CumQty;
 import quickfix.field.ExecID;
 import quickfix.field.ExecType;
+import quickfix.field.LastPx;
+import quickfix.field.LastQty;
 import quickfix.field.LeavesQty;
 import quickfix.field.OrdStatus;
 import quickfix.field.OrderID;
@@ -65,6 +67,12 @@ public class QFJApplicationOut implements ExecutionReportObserver {
 		qfjER.set(new LeavesQty(er.getLeavesQty()));
 		qfjER.set(new Side(er.getOrder().getSide().toChar()));
 		qfjER.set(new Instrument(new Symbol(er.getOrder().getSymbol())));
+		
+		// non mandatory
+		if (er.getExecType() == com.embosfer.fixbro.model.tags.ExecType.TRADE) {
+			qfjER.set(new LastPx(er.getLastPx()));
+			qfjER.set(new LastQty(er.getLastQty()));
+		}
 		try {
 			Session.sendToTarget(qfjER, currentSessionID);
 			logger.info("Sent to session {}. Msg {}", currentSessionID, qfjER);
