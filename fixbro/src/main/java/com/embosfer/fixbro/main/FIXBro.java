@@ -21,9 +21,11 @@
 package com.embosfer.fixbro.main;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.embosfer.fixbro.controller.OrderController;
 import com.embosfer.fixbro.controller.OrderControllerImpl;
+import com.embosfer.fixbro.controller.er.observer.ExecutionReportObserver;
 import com.embosfer.fixbro.controller.er.processor.ExecutionReportProcessor;
 import com.embosfer.fixbro.controller.er.processor.ExecutionReportProcessorImpl;
 import com.embosfer.fixbro.controller.qfj.QFJAcceptor;
@@ -62,7 +64,8 @@ public class FIXBro extends Application {
 		MessageSender directSender = new DirectMessageSender();
 		acceptor = new QFJAcceptor("fixbro_qfj.cfg", new QFJApplicationIn(directSender));
 
-		ExecutionReportProcessor erProcessor = new ExecutionReportProcessorImpl(Arrays.asList(new QFJApplicationOut()));
+		List<ExecutionReportObserver> erObservers = Arrays.asList(new QFJApplicationOut());
+		ExecutionReportProcessor erProcessor = new ExecutionReportProcessorImpl(erObservers);
 		OrderController controller = new OrderControllerImpl(erProcessor);
 		view = new OrderView(controller);
 	}
@@ -111,7 +114,7 @@ public class FIXBro extends Application {
 
 	@Override
 	public void stop() throws Exception {
-		super.stop();
+		view.stop();
 		acceptor.stop();
 	}
 }
