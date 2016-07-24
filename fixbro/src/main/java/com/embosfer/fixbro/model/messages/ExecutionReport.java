@@ -47,8 +47,8 @@ public class ExecutionReport {
 	private final double leavesQty;
 
 	// non mandatory
-	private final double lastQty;
-	private final double lastPx;
+	private Double lastQty;
+	private Double lastPx;
 
 	public static class Builder {
 		// mandatory fields
@@ -87,10 +87,14 @@ public class ExecutionReport {
 		this.avgPx = builder.order.getAvgPx();
 		this.cumQty = builder.order.getCumQty();
 		this.execType = builder.execType;
-		this.lastPx = builder.lastPx;
-		this.lastQty = builder.lastQty;
 		this.leavesQty = builder.order.getLeavesQty();
 		this.ordStatus = builder.order.getOrdStatus();
+
+		// non mandatory: prevent filling them with null values
+		if (this.execType == ExecType.TRADE) {
+			this.lastQty = builder.lastQty;
+			this.lastPx = builder.lastPx;
+		}
 	}
 
 	public String getExecID() {
@@ -109,11 +113,11 @@ public class ExecutionReport {
 		return execType;
 	}
 
-	public double getLastPx() {
+	public Double getLastPx() {
 		return lastPx;
 	}
 
-	public double getLastQty() {
+	public Double getLastQty() {
 		return lastQty;
 	}
 
