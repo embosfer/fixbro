@@ -1,5 +1,7 @@
 .classpath
+.project
 build/
 .gradle/
+.settings/
 /var/
 /bin/
