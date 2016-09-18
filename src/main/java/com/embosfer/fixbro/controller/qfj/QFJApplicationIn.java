@@ -36,6 +36,13 @@ import quickfix.SessionID;
 import quickfix.UnsupportedMessageType;
 import quickfix.field.SenderCompID;
 
+/**
+ * This component listens to FIX messages coming from clients, transforms them
+ * into FixBro datamodel and sends them in for processing
+ * 
+ * @author embosfer
+ *
+ */
 public class QFJApplicationIn extends quickfix.fix44.MessageCracker implements quickfix.Application {
 
 	private static final Logger logger = LoggerFactory.getLogger(QFJApplicationIn.class);
@@ -54,8 +61,8 @@ public class QFJApplicationIn extends quickfix.fix44.MessageCracker implements q
 			logger.debug("fromAdmin on session {}. Msg {}", sessionID, msg);
 	}
 
-	// callback notifying of every "app" message (eg. NOS, ER) received from the
-	// outside world
+	// callback notifying of every "app" message (eg. NOS, OCR, OCRR) received
+	// from the outside world
 	@Override
 	public void fromApp(Message msg, SessionID sessionID)
 			throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
@@ -109,4 +116,9 @@ public class QFJApplicationIn extends quickfix.fix44.MessageCracker implements q
 		messageSender.sendNewOrderSingle(nos);
 	}
 
+	@Override
+	public void onMessage(quickfix.fix44.OrderCancelRequest qfjOcr, SessionID sessionID)
+			throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+		logger.info("OrderCancelRequest received on session {} => {}", sessionID, qfjOcr);
+	}
 }
