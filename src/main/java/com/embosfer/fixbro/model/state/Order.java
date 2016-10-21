@@ -32,6 +32,10 @@ import com.embosfer.fixbro.model.tags.Side;
  */
 public interface Order extends ReadOnlyOrder {
 
+	void setSenderCompID(String senderCompID);
+
+	void setTargetCompID(String targetCompID);
+	
 	void setOrderID(String ID);
 
 	void setClOrdID(String clientID);

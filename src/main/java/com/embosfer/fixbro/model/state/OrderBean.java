@@ -37,6 +37,8 @@ import javafx.beans.property.StringProperty;
  */
 public class OrderBean implements Order {
 
+	private StringProperty senderCompID;
+	private StringProperty targetCompID;
 	private StringProperty orderID;
 	private StringProperty origClOrdID;
 	private StringProperty clOrdID;
@@ -71,6 +73,26 @@ public class OrderBean implements Order {
 		setSide(from.getSide());
 		setSymbol(from.getSymbol());
 		setTimeInForce(from.getTimeInForce());
+		setSenderCompID(from.getSenderCompID());
+		setTargetCompID(from.getTargetCompID());
+	}
+
+	@Override
+	public String getSenderCompID() {
+		return senderCompID.get();
+	}
+
+	public StringProperty getSenderCompIDProperty() {
+		return senderCompID;
+	}
+
+	@Override
+	public String getTargetCompID() {
+		return targetCompID.get();
+	}
+
+	public StringProperty getTargetCompIDProperty() {
+		return targetCompID;
 	}
 
 	@Override
@@ -275,6 +297,20 @@ public class OrderBean implements Order {
 		if (leavesQty == null)
 			leavesQty = new SimpleDoubleProperty(this, "leavesQty");
 		leavesQty.set(lvsQty);
+	}
+
+	@Override
+	public void setSenderCompID(String senderCID) {
+		if (senderCompID == null)
+			senderCompID = new SimpleStringProperty(this, "senderCompID");
+		this.senderCompID.set(senderCID);
+	}
+
+	@Override
+	public void setTargetCompID(String targetCID) {
+		if (targetCompID == null)
+			targetCompID = new SimpleStringProperty(this, "targetCompID");
+		this.targetCompID.set(targetCID);
 	}
 
 }

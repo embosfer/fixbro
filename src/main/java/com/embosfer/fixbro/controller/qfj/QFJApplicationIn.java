@@ -31,10 +31,12 @@ import quickfix.FieldNotFound;
 import quickfix.IncorrectDataFormat;
 import quickfix.IncorrectTagValue;
 import quickfix.Message;
+import quickfix.Message.Header;
 import quickfix.RejectLogon;
 import quickfix.SessionID;
 import quickfix.UnsupportedMessageType;
 import quickfix.field.SenderCompID;
+import quickfix.field.TargetCompID;
 
 /**
  * This component listens to FIX messages coming from clients, transforms them
@@ -102,10 +104,11 @@ public class QFJApplicationIn extends quickfix.fix44.MessageCracker implements q
 		logger.info("NewOrderSingle received on session {} => {}", sessionID, qfjNos);
 		NewOrderSingle.Builder builder = new NewOrderSingle.Builder();
 		// mandatory fields
-		builder.senderCompID(qfjNos.getHeader().getField(new SenderCompID()).getValue())
-				.clOrdID(qfjNos.getClOrdID().getValue()).orderQty(qfjNos.getOrderQty().getValue())
-				.ordType(qfjNos.getOrdType().getValue()).side(qfjNos.getSide().getValue())
-				.symbol(qfjNos.getInstrument().getSymbol().getValue())
+		Header header = qfjNos.getHeader();
+		builder.senderCompID(header.getField(new SenderCompID()).getValue())
+				.targetCompID(header.getField(new TargetCompID()).getValue()).clOrdID(qfjNos.getClOrdID().getValue())
+				.orderQty(qfjNos.getOrderQty().getValue()).ordType(qfjNos.getOrdType().getValue())
+				.side(qfjNos.getSide().getValue()).symbol(qfjNos.getInstrument().getSymbol().getValue())
 				.transactTime(qfjNos.getTransactTime().getValue());
 
 		// non mandatory fields

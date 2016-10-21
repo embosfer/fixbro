@@ -80,6 +80,8 @@ public class FIXBro extends Application {
 		// order1.setQty(1000D);
 		// order1.setSide(Side.BUY);
 		// order1.setSymbol("EUR/USD");
+		// order1.setSenderCompID("BANZAI");
+		// order1.setTargetCompID("FIXB");
 		// OrderBook.getInstance().addOrder(order1);
 		//
 		// Order order2 = new OrderBean();
@@ -94,6 +96,8 @@ public class FIXBro extends Application {
 		// order2.setQty(2000D);
 		// order2.setSide(Side.SELL);
 		// order2.setSymbol("EUR/USD");
+		// order2.setSenderCompID("BANZAI2");
+		// order2.setTargetCompID("FIXB");
 		// OrderBook.getInstance().addOrder(order2);
 
 		// launch JavaFX

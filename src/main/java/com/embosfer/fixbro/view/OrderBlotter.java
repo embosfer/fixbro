@@ -111,10 +111,14 @@ public class OrderBlotter implements OrderObserver {
 		side.setCellValueFactory(cellData -> cellData.getValue().getSideProperty());
 		TableColumn<OrderBean, String> symbol = new TableColumn<>("symbol");
 		symbol.setCellValueFactory(cellData -> cellData.getValue().getSymbolProperty());
+		TableColumn<OrderBean, String> senderCompID = new TableColumn<>("senderCompID");
+		senderCompID.setCellValueFactory(cellData -> cellData.getValue().getSenderCompIDProperty());
+		TableColumn<OrderBean, String> targetCompID = new TableColumn<>("targetCompID");
+		targetCompID.setCellValueFactory(cellData -> cellData.getValue().getTargetCompIDProperty());
 		// TODO fill all values
 
 		getTableView().getColumns().setAll(orderID, symbol, ordType, price, side, ordStatus, leavesQty, cumQty, avgPx,
-				origClOrdID, clOrdID);
+				origClOrdID, clOrdID, senderCompID, targetCompID);
 	}
 
 	public TableView<OrderBean> getTableView() {

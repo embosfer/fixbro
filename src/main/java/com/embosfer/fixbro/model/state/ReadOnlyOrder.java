@@ -26,6 +26,10 @@ import com.embosfer.fixbro.model.tags.Side;
 
 public interface ReadOnlyOrder {
 
+	String getSenderCompID();
+
+	String getTargetCompID();
+	
 	String getOrderID();
 
 	String getClOrdID();

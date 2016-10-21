@@ -25,9 +25,9 @@ import org.slf4j.LoggerFactory;
 
 import com.embosfer.fixbro.controller.er.observer.ExecutionReportObserver;
 import com.embosfer.fixbro.model.messages.ExecutionReport;
+import com.embosfer.fixbro.model.state.ReadOnlyOrder;
 
 import quickfix.Session;
-import quickfix.SessionID;
 import quickfix.SessionNotFound;
 import quickfix.field.AvgPx;
 import quickfix.field.ClOrdID;
@@ -51,33 +51,33 @@ public class QFJApplicationOut implements ExecutionReportObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(QFJApplicationOut.class);
 
-	// FIXME keep the session ID on the ER message
-	private SessionID currentSessionID = new SessionID("FIX.4.4:FIXB.TRD->BANZAI");
-
 	@Override
 	public void onExecutionReport(ExecutionReport er) {
 		quickfix.fix44.ExecutionReport qfjER = new quickfix.fix44.ExecutionReport();
+		ReadOnlyOrder order = er.getOrder();
 		qfjER.set(new ClOrdID(er.getClOrdID()));
-		qfjER.set(new OrderID(er.getOrder().getOrderID()));
+		qfjER.set(new OrderID(order.getOrderID()));
 		qfjER.set(new ExecID(er.getExecID()));
 		qfjER.set(new OrdStatus(er.getOrdStatus().toChar()));
 		qfjER.set(new ExecType(er.getExecType().toChar()));
 		qfjER.set(new CumQty(er.getCumQty()));
 		qfjER.set(new AvgPx(er.getAvgPx()));
 		qfjER.set(new LeavesQty(er.getLeavesQty()));
-		qfjER.set(new Side(er.getOrder().getSide().toChar()));
-		qfjER.set(new Instrument(new Symbol(er.getOrder().getSymbol())));
-		
+		qfjER.set(new Side(order.getSide().toChar()));
+		qfjER.set(new Instrument(new Symbol(order.getSymbol())));
+
 		// non mandatory
 		if (er.getExecType() == com.embosfer.fixbro.model.tags.ExecType.TRADE) {
 			qfjER.set(new LastPx(er.getLastPx()));
 			qfjER.set(new LastQty(er.getLastQty()));
 		}
 		try {
-			Session.sendToTarget(qfjER, currentSessionID);
-			logger.info("Sent to session {}. Msg {}", currentSessionID, qfjER);
+			Session.sendToTarget(qfjER, order.getTargetCompID(), order.getSenderCompID()); // reverse
+			logger.info("Sent to [SenderCompID={},TargetCompID={}] {}. Msg {}", order.getSenderCompID(),
+					order.getTargetCompID(), qfjER);
 		} catch (SessionNotFound e) {
-			logger.error("Session {} not found. Could not send msg {}", currentSessionID, qfjER);
+			logger.error("Session to [SenderCompID={},TargetCompID={}] not found. Could not send msg {}",
+					order.getSenderCompID(), order.getTargetCompID(), qfjER);
 			// TODO implement rollback
 		}
 	}

@@ -38,6 +38,8 @@ public class ProcessNewOrder {
 	public ProcessNewOrder(NewOrderSingle inNos) {
 		// TODO validate order
 		Order order = new OrderBean();
+		order.setSenderCompID(inNos.getSenderCompID());
+		order.setTargetCompID(inNos.getTargetCompID());
 		order.setClOrdID(inNos.getClOrdID());
 		order.setAvgPx(0.0D);
 		order.setCumQty(0.0D);
