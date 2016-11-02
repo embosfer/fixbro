@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations under the License.
  *
  ***********************************************************************************************************************/
-package com.embosfer.fixbro.test;
+package com.embosfer.fixbro.test.controller.er.producer;
 
 import static org.junit.Assert.assertEquals;
 
