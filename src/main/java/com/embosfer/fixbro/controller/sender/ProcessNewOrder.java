@@ -24,7 +24,6 @@ import com.embosfer.fixbro.model.messages.NewOrderSingle;
 import com.embosfer.fixbro.model.state.Order;
 import com.embosfer.fixbro.model.state.OrderBean;
 import com.embosfer.fixbro.model.state.OrderBook;
-import com.embosfer.fixbro.model.tags.OrdStatus;
 
 /**
  * Processes the incoming 35=D messages (NewOrderSingle messages) and adds them
@@ -41,11 +40,7 @@ public class ProcessNewOrder {
 		order.setSenderCompID(inNos.getSenderCompID());
 		order.setTargetCompID(inNos.getTargetCompID());
 		order.setClOrdID(inNos.getClOrdID());
-		order.setAvgPx(0.0D);
-		order.setCumQty(0.0D);
 		order.setLeavesQty(inNos.getOrderQty());
-		order.setOrderID("O" + System.nanoTime());
-		order.setOrdStatus(OrdStatus.NONE_YET);
 		order.setOrdType(inNos.getOrdType());
 		order.setOrigClOrdID(inNos.getClOrdID());
 		Double price = inNos.getPrice();

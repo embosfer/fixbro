@@ -57,6 +57,10 @@ public class OrderBean implements Order {
 	private StringProperty price;
 
 	public OrderBean() {
+		setAvgPx(0);
+		setCumQty(0);
+		setOrdStatus(OrdStatus.NONE_YET);
+		setOrderID("O" + System.nanoTime());
 	}
 
 	public OrderBean(Order from) {
