@@ -3,7 +3,6 @@
  * FixBro - an open source FIX broker (sell side) simulator
  * =========================================================
  *
- * Copyright (C) 2016 by Emilio Bosch Ferrando
  * https://github.com/embosfer
  *
  ***********************************************************************************************************************
